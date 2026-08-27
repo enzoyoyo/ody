@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="荷马史诗《奥德赛》神话舆图 — 地中海归乡航程、24卷导读与希腊神话谱系">
+<title>奥德赛神话舆图 · Odyssey Myth Atlas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --marble:#f4f0e8;
+  --parchment:#e8dcc8;
+  --parchment2:#ddd0b8;
+  --ink:#1a2332;
+  --ink2:#3d4f63;
+  --ink3:#6b7d8f;
+  --aegean:#1e4d6b;
+  --terracotta:#a0522d;
+  --gold:#8b7355;
+  --night:#0f1419;
+  --desk:#141a22;
+  --desk2:#1a2332;
+  --line:rgba(26,35,50,.22);
+  --pnl:rgba(244,240,232,.92);
+  --display:"Cinzel","Noto Serif SC",serif;
+  --body:"EB Garamond","Noto Serif SC",serif;
+}
+html[data-theme="night"]{
+  --marble:#1a2332;
+  --parchment:#222b38;
+  --parchment2:#1a2332;
+  --ink:#e8dcc8;
+  --ink2:#b8c4d0;
+  --ink3:#8a9aab;
+  --aegean:#4a8ab0;
+  --terracotta:#d4845a;
+  --gold:#c4a574;
+  --desk:#0a0e14;
+  --desk2:#0f1419;
+  --line:rgba(232,220,200,.18);
+  --pnl:rgba(26,35,50,.94);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+button,select,input,label{touch-action:manipulation}
+#map,#tlcanvas{touch-action:none}
+html,body{overscroll-behavior:none;height:100%;margin:0}
+body{
+  background:var(--desk);
+  color:var(--ink);
+  font-family:var(--body);
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+#app{
+  display:grid;
+  grid-template-columns:262px minmax(0,1fr) 360px;
+  grid-template-rows:auto minmax(0,1fr) auto;
+  height:100vh;
+  gap:0;
+}
+header{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:8px 16px;
+  background:linear-gradient(180deg,var(--desk2),var(--desk));
+  border-bottom:1px solid var(--line);
+}
+h1{
+  font-family:var(--display);
+  font-size:17px;
+  margin:0;
+  letter-spacing:.18em;
+  color:var(--parchment);
+  font-weight:600;
+  white-space:nowrap;
+}
+html[data-theme="night"] h1{color:var(--ink)}
+h1 small{
+  display:block;
+  font-size:9.5px;
+  letter-spacing:.28em;
+  color:var(--gold);
+  margin-top:3px;
+  font-family:var(--body);
+}
+.seal{
+  font-family:var(--display);
+  font-size:22px;
+  color:var(--terracotta);
+  border:1px solid var(--gold);
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:2px;
+  flex:none;
+}
+.modes{display:flex;gap:0;border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.modes button{
+  background:transparent;border:0;border-right:1px solid var(--line);
+  color:var(--ink3);font-family:var(--display);font-size:12px;
+  letter-spacing:.1em;padding:6px 14px;cursor:pointer;transition:.16s;
+}
+.modes button:last-child{border-right:0}
+.modes button:hover{background:rgba(30,77,107,.12);color:var(--aegean)}
+.modes button[aria-pressed="true"]{background:var(--aegean);color:var(--marble)}
+.hbtns{margin-left:auto;display:flex;gap:8px;align-items:center}
+.hbtn{
+  background:transparent;border:1px solid var(--line);
+  color:var(--ink3);font-family:var(--display);font-size:11px;
+  letter-spacing:.08em;padding:5px 11px;border-radius:2px;cursor:pointer;
+}
+.hbtn:hover{background:rgba(30,77,107,.15);color:var(--aegean)}
+aside{
+  background:var(--parchment);
+  overflow-y:auto;overflow-x:hidden;position:relative;
+}
+aside::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(120% 80% at 20% 0%,rgba(255,255,255,.35),transparent 55%),
+    radial-gradient(90% 70% at 90% 100%,rgba(30,77,107,.06),transparent 60%);
+}
+#left{border-right:1px solid var(--line)}
+#right{border-left:1px solid var(--line)}
+.pnl{padding:11px 13px;border-bottom:1px solid var(--line);position:relative}
+.pt{
+  font-family:var(--display);font-size:11.5px;letter-spacing:.22em;
+  color:var(--ink2);margin:0 0 8px;display:flex;align-items:center;gap:7px;
+}
+.pt::before{content:"";width:3px;height:11px;background:var(--terracotta);display:inline-block}
+.lay{display:flex;flex-direction:column;gap:1px}
+.lay label{
+  display:flex;align-items:center;gap:8px;font-size:12.5px;
+  padding:4px 5px;cursor:pointer;border-radius:2px;
+}
+.lay label:hover{background:rgba(30,77,107,.08)}
+.lay input{
+  appearance:none;width:13px;height:13px;border:1px solid var(--ink3);
+  border-radius:1px;position:relative;cursor:pointer;flex:none;background:transparent;
+}
+.lay input:checked{background:var(--aegean);border-color:var(--aegean)}
+.lay input:checked::after{
+  content:"";position:absolute;left:3.6px;top:.6px;width:3.5px;height:7.5px;
+  border:solid var(--marble);border-width:0 1.6px 1.6px 0;transform:rotate(42deg);
+}
+#legend{display:flex;flex-direction:column;gap:0}
+.lg{
+  display:flex;align-items:center;gap:8px;font-size:12px;
+  padding:4px 5px;cursor:pointer;border-radius:2px;line-height:1.35;
+}
+.lg:hover,.lg.active{background:rgba(30,77,107,.12)}
+.lg.legendary .sw{border:1px dashed var(--gold)}
+.sw{width:14px;height:10px;flex:none;border:1px solid var(--ink3)}
+.lg b{font-weight:600;font-family:var(--display);font-size:11px}
+.lg i{margin-left:auto;font-style:normal;font-size:10px;color:var(--ink3);max-width:120px;text-align:right}
+#stage{position:relative;background:var(--desk);overflow:hidden}
+#map{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
+#map.drag{cursor:grabbing}
+#tip{
+  position:absolute;pointer-events:none;background:var(--pnl);
+  border:1px solid var(--line);box-shadow:0 3px 14px rgba(0,0,0,.35);
+  padding:7px 10px;font-size:12px;max-width:270px;line-height:1.6;
+  opacity:0;transition:opacity .1s;z-index:9;border-radius:2px;
+}
+#tip.on{opacity:1}
+#tip b{font-family:var(--display);font-size:13px}
+#tip .k{color:var(--ink3);font-size:11px}
+#zoomc{position:absolute;right:12px;bottom:12px;display:flex;flex-direction:column;gap:5px;z-index:8}
+#zoomc button{
+  width:28px;height:28px;background:var(--pnl);border:1px solid var(--line);
+  color:var(--ink);font-size:15px;cursor:pointer;border-radius:2px;line-height:1;
+}
+#zoomc button:hover{background:var(--parchment)}
+#loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--desk);color:var(--gold);
+  font-family:var(--display);letter-spacing:.3em;font-size:13px;z-index:20;
+}
+#right .body{font-size:13.5px;line-height:1.85;color:var(--ink);padding:12px 14px}
+#right .body p{margin:0 0 9px}
+.ttl{font-family:var(--display);font-size:16px;letter-spacing:.08em;margin:0 0 4px}
+.sub{font-size:11px;color:var(--ink3);letter-spacing:.12em;margin-bottom:10px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:12.5px;margin-bottom:8px}
+.kv span{color:var(--ink3)}
+.section-h{
+  font-family:var(--display);font-size:11px;letter-spacing:.2em;
+  color:var(--aegean);margin:14px 0 8px;border-top:1px solid var(--line);padding-top:10px;
+}
+.badge{
+  display:inline-block;font-size:10px;letter-spacing:.06em;
+  padding:2px 6px;border-radius:2px;margin-bottom:8px;
+}
+.badge-consensus{background:rgba(30,77,107,.15);color:var(--aegean)}
+.badge-disputed{background:rgba(160,82,45,.15);color:var(--terracotta)}
+.badge-legend{background:rgba(139,115,85,.15);color:var(--gold)}
+.beat-card{
+  padding:8px 10px;margin-bottom:6px;background:rgba(30,77,107,.06);
+  border-left:2px solid var(--aegean);cursor:pointer;
+}
+.beat-card:hover{background:rgba(30,77,107,.12)}
+.beat-card b{font-family:var(--display);font-size:12px}
+.char-tags{display:flex;flex-wrap:wrap;gap:6px}
+.char-tag{
+  font-size:11px;padding:3px 8px;background:rgba(139,115,85,.15);
+  border-radius:2px;color:var(--ink2);
+}
+.myth-card,.myth-section{
+  padding:8px;margin-bottom:8px;background:rgba(30,77,107,.06);border-radius:2px;
+}
+.myth-grid{display:flex;flex-direction:column;gap:6px}
+.myth-card i{color:var(--ink3);font-style:normal}
+.dim{color:var(--ink3);font-size:11px}
+.film-inline,.film-note{font-size:12px;color:var(--ink2)}
+.cast-list{font-size:12.5px;line-height:1.7;padding-left:18px}
+.film-table{width:100%;font-size:11.5px;border-collapse:collapse}
+.film-table th,.film-table td{border:1px solid var(--line);padding:4px 6px;text-align:left}
+.disclaimer{font-size:11px;color:var(--ink3);margin-top:12px;font-style:italic}
+.place-beats{font-size:12.5px;line-height:1.7;padding-left:18px}
+footer{
+  grid-column:1/-1;display:flex;align-items:center;gap:12px;
+  padding:6px 14px;background:var(--parchment2);border-top:1px solid var(--line);
+}
+#tlwrap{flex:1;min-width:0;height:48px}
+#tlcanvas{width:100%;height:48px;display:block;cursor:pointer}
+#yBig{font-family:var(--display);font-size:15px;letter-spacing:.1em;color:var(--aegean);min-width:72px}
+#yEra1{font-size:11px;color:var(--ink3);flex:1}
+.playbtns{display:flex;gap:4px}
+.playbtns button{
+  width:32px;height:32px;border:1px solid var(--line);background:var(--marble);
+  cursor:pointer;border-radius:2px;color:var(--aegean);font-size:14px;
+}
+#srchOv{
+  position:fixed;inset:0;background:rgba(10,14,20,.6);z-index:100;
+  display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;
+  opacity:0;pointer-events:none;transition:.2s;
+}
+#srchOv.on{opacity:1;pointer-events:auto}
+.srch-box{
+  background:var(--parchment);border:1px solid var(--line);
+  width:min(520px,92vw);border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+#srchIn{
+  width:100%;padding:14px 16px;border:0;border-bottom:1px solid var(--line);
+  font-family:var(--body);font-size:15px;background:transparent;color:var(--ink);
+  outline:none;
+}
+#srchList{max-height:50vh;overflow-y:auto}
+.srch-item{padding:10px 16px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px}
+.srch-item:hover{background:rgba(30,77,107,.1)}
+.srch-type{
+  font-size:10px;color:var(--terracotta);letter-spacing:.1em;
+  margin-right:8px;font-family:var(--display);
+}
+#tourCard{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  background:var(--pnl);border:1px solid var(--line);
+  box-shadow:0 8px 32px rgba(0,0,0,.45);z-index:50;
+  max-width:420px;width:90%;border-radius:4px;
+  opacity:0;pointer-events:none;transition:.2s;
+}
+#tourCard.on{opacity:1;pointer-events:auto}
+.tour-inner{padding:20px 22px}
+.tour-inner h3{font-family:var(--display);margin:0 0 10px;font-size:15px}
+.tour-btns{display:flex;gap:8px;margin-top:14px}
+.tour-btns button{
+  padding:6px 14px;border:1px solid var(--line);background:var(--marble);
+  cursor:pointer;font-family:var(--display);font-size:11px;color:var(--aegean);
+}
+#leftTgl,#rightTgl{
+  display:none;position:absolute;z-index:12;top:10px;
+  background:var(--pnl);border:1px solid var(--line);padding:6px 10px;
+  cursor:pointer;font-family:var(--display);font-size:11px;
+}
+#leftTgl{left:8px}
+#rightTgl{right:8px}
+@media(max-width:900px){
+  #app{grid-template-columns:1fr}
+  #left,#right{
+    position:absolute;top:0;bottom:0;width:min(300px,88vw);z-index:30;
+    transform:translateX(-110%);transition:.25s;box-shadow:4px 0 20px rgba(0,0,0,.3);
+  }
+  #right{right:0;left:auto;transform:translateX(110%)}
+  #left.open{transform:translateX(0)}
+  #right.open{transform:translateX(0)}
+  #leftTgl,#rightTgl{display:block}
+  .modes button{padding:6px 8px;font-size:11px}
+  h1 small{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="seal" id="seal">Ὀ</div>
+    <h1>奥德赛神话舆图<small>ODYSSEY MYTH ATLAS · HOMERIC EPIC</small></h1>
+    <div class="modes" id="modes">
+      <button type="button" data-mode="journey" aria-pressed="true">归乡航程</button>
+      <button type="button" data-mode="books" aria-pressed="false">史诗卷章</button>
+      <button type="button" data-mode="mythos" aria-pressed="false">神话谱系</button>
+    </div>
+    <div class="hbtns">
+      <button type="button" class="hbtn" id="filmBtn">电影导读</button>
+      <button type="button" class="hbtn" id="srchBtn">检索</button>
+      <button type="button" class="hbtn" id="tourBtn">导览</button>
+      <button type="button" class="hbtn" id="themeBtn">夜观</button>
+    </div>
+  </header>
+
+  <aside id="left">
+    <div class="pnl">
+      <p class="pt">图层</p>
+      <div class="lay" id="layers">
+        <label><input type="checkbox" data-layer="route" checked> 航线轨迹</label>
+        <label><input type="checkbox" data-layer="places" checked> 地点标记</label>
+        <label><input type="checkbox" data-layer="legendary" checked> 传说方位</label>
+        <label><input type="checkbox" data-layer="grid"> 经纬网格</label>
+      </div>
+    </div>
+    <div class="pnl">
+      <p class="pt">导览条目</p>
+      <div id="legend"></div>
+    </div>
+  </aside>
+
+  <main id="stage">
+    <button type="button" id="leftTgl">☰ 图层</button>
+    <button type="button" id="rightTgl">详情 ☰</button>
+    <canvas id="map"></canvas>
+    <div id="tip"></div>
+    <div id="zoomc">
+      <button type="button" id="zin" title="放大">＋</button>
+      <button type="button" id="zout" title="缩小">－</button>
+      <button type="button" id="zfit" title="适应">囲</button>
+    </div>
+    <div id="loading">绘 制 舆 图 …</div>
+    <div id="tourCard"></div>
+  </main>
+
+  <aside id="right">
+    <div class="body" id="rbody"></div>
+  </aside>
+
+  <footer>
+    <span id="yBig">卷 1</span>
+    <span id="yEra1"></span>
+    <div id="tlwrap"><canvas id="tlcanvas"></canvas></div>
+    <div class="playbtns">
+      <button type="button" id="pPrev" title="上一卷">◀</button>
+      <button type="button" id="pPlay" title="播放">▶</button>
+      <button type="button" id="pNext" title="下一卷">▶</button>
+    </div>
+  </footer>
+</div>
+
+<div id="srchOv">
+  <div class="srch-box">
+    <input type="search" id="srchIn" placeholder="检索卷章、地点、人物…" autocomplete="off">
+    <div id="srchList"></div>
+  </div>
+</div>
+
+<script>window.__SPLIT__={"data":"assets/data-8b17968050.json","app":"assets/app-4600157714.js"};</script>
+<script>
+(async()=>{
+  const lo=document.getElementById('loading');
+  const say=t=>{if(lo)lo.textContent=t;};
+  try{
+    say('加载史诗数据…');
+    const r=await fetch(__SPLIT__.data);
+    if(!r.ok)throw new Error('HTTP '+r.status);
+  const data=await r.json();
+  window.DATA=data;
+  say('绘制引擎…');
+  const s=document.createElement('script');
+  s.src=__SPLIT__.app;
+  s.onload=()=>say('');
+  s.onerror=()=>{say('引擎加载失败');};
+  document.body.appendChild(s);
+  }catch(e){
+    say('加载失败: '+e.message);
+    console.error(e);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "title": "克里斯托弗·诺兰《The Odyssey》（2026）",
+  "releaseDate": "2026-07-17",
+  "studio": "Universal Pictures / Syncopy",
+  "director": "Christopher Nolan",
+  "basedOn": "荷马史诗《奥德赛》",
+  "format": "全片 IMAX 70mm 胶片摄影",
+  "runtime": "约 2 小时 52 分钟",
+  "rating": "R（美国分级）",
+  "officialLogline": "克里斯托弗·诺兰的下一部电影《The Odyssey》是一部神话动作史诗，使用全新 IMAX 胶片技术在全球取景拍摄，将荷马奠基性史诗首次搬上 IMAX 银幕。（据 Universal 2024年12月官方公告）",
+  "cast": [
+    { "actor": "Matt Damon", "role": "奥德修斯（公开报道）" },
+    { "actor": "Tom Holland", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Anne Hathaway", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Robert Pattinson", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Lupita Nyong'o", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Zendaya", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Charlize Theron", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Jon Bernthal", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Samantha Morton", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Himesh Patel", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Elliot Page", "role": "角色未在官方公告中详述（媒体报道）" },
+    { "actor": "Bill Irwin", "role": "角色未在官方公告中详述（媒体报道）" }
+  ],
+  "productionNotes": [
+    "首支预告曾限定影院放映（如与《侏罗纪世界：重生》联映），强调影院优先策略（媒体报道）。",
+    "全球约 41 家影院可提供完整 IMAX 70mm 格式放映（媒体报道）。",
+    "本片为诺兰首部全程使用 IMAX 70mm 摄影机拍摄的长片（媒体报道）。"
+  ],
+  "epicMapping": [
+    { "book": 1, "epic": "伊塔卡局势与忒勒玛科斯", "filmNote": "公开信息未逐卷对照；待官方材料补充。" },
+    { "book": 5, "epic": "卡吕普索之岛", "filmNote": "海岛与漂泊主题为官方梗概所暗示。" },
+    { "book": 9, "epic": "独眼巨人", "filmNote": "怪物与海上历险为官方「神话动作史诗」定位所涵盖。" },
+    { "book": 22, "epic": "肃清求婚者", "filmNote": "英雄回归与冲突为史诗核心，改编范围未官方详述。" }
+  ],
+  "sources": [
+    "universal_announcement_2024-12",
+    "deadline_nolan_odyssey",
+    "hollywood_reporter_review_2026"
+  ],
+  "disclaimer": "本模块仅收录公开制作信息与媒体报道；不收录未证实剧情、台词或分场臆测。"
+}
