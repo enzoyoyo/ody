@@ -52,7 +52,10 @@ const split = {
 };
 
 let html = readFileSync(indexPath, 'utf8');
-html = html.replace(/href="assets\/css\/ody\.css"/, `href="assets/css/${cssFile}${bust}"`);
+html = html.replace(
+  /href="assets\/css\/ody[^"]*\.css[^"]*"/,
+  `href="assets/css/${cssFile}${bust}"`
+);
 html = html.replace(/window\.__SPLIT__\s*=\s*\{[\s\S]*?\};/, `window.__SPLIT__=${JSON.stringify(split)};`);
 writeFileSync(indexPath, html);
 

@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/ody-d012a099ee.css?v=989995db">
+<link rel="stylesheet" href="assets/css/ody-1b914f8909.css?v=6022fc6e">
 </head>
 <body>
 <div id="intro">
@@ -118,22 +118,29 @@
   </div>
 </div>
 
-<script>window.__SPLIT__={"data":"assets/data-286bccb442.json?v=e0dd48ed","app":"assets/app-e854526da5.js?v=e0dd48ed","css":"assets/css/ody-1b914f8909.css?v=e0dd48ed","version":"e0dd48ed"};</script>
+<script>window.__SPLIT__={"data":"assets/data-286bccb442.json?v=6022fc6e","app":"assets/app-6b64e1c93a.js?v=6022fc6e","css":"assets/css/ody-1b914f8909.css?v=6022fc6e","version":"6022fc6e"};</script>
 <script>
 (function(){
-  const h=location.host;
+  const h=location.hostname;
   const local=/^(localhost|127\.0\.0\.1)$/.test(h);
   const onGithub=h.endsWith('github.io');
   const needsCdn=!local&&!onGithub;
   const CDN='https://cdn.jsdelivr.net/gh/enzoyoyo/ody@main/';
   window.__CDN__=needsCdn?CDN:'';
+  // Always sync stylesheet to the hashed build asset (fixes stale link after rebuilds)
+  if(window.__SPLIT__?.css){
+    let link=document.querySelector('link[rel="stylesheet"][href*="assets/css/"]');
+    if(!link){
+      link=document.createElement('link');
+      link.rel='stylesheet';
+      document.head.appendChild(link);
+    }
+    const cssPath=needsCdn&&!__SPLIT__.css.startsWith('http')?(CDN+__SPLIT__.css):__SPLIT__.css;
+    link.href=cssPath;
+  }
   if(needsCdn&&window.__SPLIT__){
     if(__SPLIT__.data&&!__SPLIT__.data.startsWith('http'))__SPLIT__.data=CDN+__SPLIT__.data;
     if(__SPLIT__.app&&!__SPLIT__.app.startsWith('http'))__SPLIT__.app=CDN+__SPLIT__.app;
-    if(__SPLIT__.css&&!__SPLIT__.css.startsWith('http')){
-      const link=document.querySelector('link[rel="stylesheet"][href*="assets/css/"]');
-      if(link)link.href=CDN+__SPLIT__.css;
-    }
   }
   if(__SPLIT__?.version){
     const b=document.getElementById('verBadge');
