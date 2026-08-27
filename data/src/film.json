@@ -7,36 +7,63 @@
   "format": "全片 IMAX 70mm 胶片摄影",
   "runtime": "约 2 小时 52 分钟",
   "rating": "R（美国分级）",
-  "officialLogline": "克里斯托弗·诺兰的下一部电影《The Odyssey》是一部神话动作史诗，使用全新 IMAX 胶片技术在全球取景拍摄，将荷马奠基性史诗首次搬上 IMAX 银幕。（据 Universal 2024年12月官方公告）",
+  "officialLogline": "克里斯托弗·诺兰执导的神话动作史诗，将荷马《奥德赛》搬上 IMAX 银幕；奥德修斯（Matt Damon）在特洛伊战争后历经险阻归返伊塔卡，与佩涅罗珀（Anne Hathaway）重逢。（据公开制作信息与媒体报道）",
   "cast": [
-    { "actor": "Matt Damon", "role": "奥德修斯（公开报道）" },
-    { "actor": "Tom Holland", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Anne Hathaway", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Robert Pattinson", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Lupita Nyong'o", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Zendaya", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Charlize Theron", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Jon Bernthal", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Samantha Morton", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Himesh Patel", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Elliot Page", "role": "角色未在官方公告中详述（媒体报道）" },
-    { "actor": "Bill Irwin", "role": "角色未在官方公告中详述（媒体报道）" }
+    { "actor": "Matt Damon", "role": "奥德修斯", "characterId": "odysseus", "portrait": "assets/images/cast/matt-damon.jpg" },
+    { "actor": "Tom Holland", "role": "忒勒玛科斯", "characterId": "telemachus", "portrait": "assets/images/cast/tom-holland.jpg" },
+    { "actor": "Anne Hathaway", "role": "佩涅罗珀", "characterId": "penelope", "portrait": "assets/images/cast/anne-hathaway.jpg" },
+    { "actor": "Robert Pattinson", "role": "安提诺俄斯", "characterId": "antinous", "portrait": "assets/images/cast/robert-pattinson.jpg" },
+    { "actor": "Lupita Nyong'o", "role": "海伦（兼克吕泰涅斯特拉）", "characterId": "helen", "portrait": "assets/images/cast/lupita-nyongo.jpg" },
+    { "actor": "Zendaya", "role": "雅典娜", "characterId": "athena", "portrait": "assets/images/cast/zendaya.jpg" },
+    { "actor": "Charlize Theron", "role": "卡吕普索", "characterId": "calypso", "portrait": "assets/images/cast/charlize-theron.jpg" },
+    { "actor": "Samantha Morton", "role": "喀耳刻", "characterId": "circe", "portrait": "assets/images/cast/samantha-morton.jpg" },
+    { "actor": "Jon Bernthal", "role": "墨涅拉俄斯", "characterId": "menelaus", "portrait": "assets/images/cast/jon-bernthal.jpg" },
+    { "actor": "Bill Irwin", "role": "波吕斐摩斯", "characterId": "polyphemus", "portrait": "assets/images/cast/bill-irwin.jpg" }
+  ],
+  "stills": [
+    {
+      "src": "assets/images/film/premiere-damon-nolan-hathaway.jpg",
+      "caption": "首映：Damon · Nolan · Hathaway",
+      "credit": "Philip Romano · Wikimedia Commons"
+    },
+    {
+      "src": "assets/images/film/premiere-damon-thomas-hathaway.jpg",
+      "caption": "首映：Damon · Nolan · Thomas · Hathaway",
+      "credit": "Philip Romano · Wikimedia Commons"
+    },
+    {
+      "src": "assets/images/film/press-seoul-2026.jpg",
+      "caption": "首尔发布会（2026-08-03）",
+      "credit": "Wikimedia Commons"
+    },
+    {
+      "src": "assets/images/film/nolan-imax.jpg",
+      "caption": "诺兰与 IMAX 现场",
+      "credit": "Philip Romano · Wikimedia Commons"
+    },
+    {
+      "src": "assets/images/film/premiere-fans.jpg",
+      "caption": "首映观众与主创氛围",
+      "credit": "Philip Romano · Wikimedia Commons"
+    }
   ],
   "productionNotes": [
-    "首支预告曾限定影院放映（如与《侏罗纪世界：重生》联映），强调影院优先策略（媒体报道）。",
-    "全球约 41 家影院可提供完整 IMAX 70mm 格式放映（媒体报道）。",
-    "本片为诺兰首部全程使用 IMAX 70mm 摄影机拍摄的长片（媒体报道）。"
+    "2026年7月17日北美上映；伦敦首映更早（媒体报道）。",
+    "全片使用 IMAX 70mm 胶片摄影机拍摄（媒体报道）。",
+    "阵容角色对应据 Wikipedia / Hollywood Reporter / Rotten Tomatoes 等公开资料整理。"
   ],
   "epicMapping": [
-    { "book": 1, "epic": "伊塔卡局势与忒勒玛科斯", "filmNote": "公开信息未逐卷对照；待官方材料补充。" },
-    { "book": 5, "epic": "卡吕普索之岛", "filmNote": "海岛与漂泊主题为官方梗概所暗示。" },
-    { "book": 9, "epic": "独眼巨人", "filmNote": "怪物与海上历险为官方「神话动作史诗」定位所涵盖。" },
-    { "book": 22, "epic": "肃清求婚者", "filmNote": "英雄回归与冲突为史诗核心，改编范围未官方详述。" }
+    { "book": 1, "epic": "伊塔卡局势与忒勒玛科斯", "filmNote": "Telemachus（Tom Holland）线与 Penelope（Anne Hathaway）守城压力。" },
+    { "book": 5, "epic": "卡吕普索之岛", "filmNote": "Calypso（Charlize Theron）羁留 Odysseus（Matt Damon）。" },
+    { "book": 9, "epic": "独眼巨人", "filmNote": "Polyphemus（Bill Irwin）段落为海上历险核心之一。" },
+    { "book": 10, "epic": "喀耳刻", "filmNote": "Circe（Samantha Morton）岛屿段落。" },
+    { "book": 22, "epic": "肃清求婚者", "filmNote": "Antinous（Robert Pattinson）等求婚者冲突。" }
   ],
   "sources": [
-    "universal_announcement_2024-12",
-    "deadline_nolan_odyssey",
-    "hollywood_reporter_review_2026"
+    "wikipedia_odyssey_2026_film",
+    "hollywood_reporter_odyssey_cast",
+    "rottentomatoes_odyssey_2026_cast",
+    "universal_announcement_2024-12"
   ],
-  "disclaimer": "本模块仅收录公开制作信息与媒体报道；不收录未证实剧情、台词或分场臆测。"
+  "disclaimer": "演员肖像取自 Wikimedia Commons 公开活动摄影；电影剧照受版权保护，本站以首映/发布会实拍与公开报道替代，不转载未授权剧照。角色对应依据公开媒体与百科条目。"
 }

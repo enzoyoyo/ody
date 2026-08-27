@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "creditNote": "生成图为原创视觉辅助；古典绘画与影片来自 Wikimedia Commons / Internet Archive，公有领域或相应许可。",
+  "creditNote": "人物肖像优先使用 Wikimedia Commons 公开活动摄影（诺兰电影演员）；场景含首映/发布会实拍。古典绘画为公版。Codex 生成图仅作地点视觉辅助，非剧照。",
   "places": {
     "troy": {
       "hero": "assets/images/places/place-troy.jpg",
@@ -51,11 +51,16 @@
     "lotus": { "hero": "assets/images/art/aegean-sea.jpg", "gallery": [] }
   },
   "characters": {
-    "odysseus": { "portrait": "assets/images/chars/char-odysseus.jpg" },
-    "athena": { "portrait": "assets/images/chars/char-athena.jpg" },
-    "penelope": { "portrait": "assets/images/chars/char-penelope.jpg" },
-    "circe": { "portrait": "assets/images/art/waterhouse-circe.jpg" },
-    "polyphemus": { "portrait": "assets/images/art/eckersberg-polyphemus.jpg" }
+    "odysseus": { "portrait": "assets/images/cast/matt-damon.jpg", "credit": "Matt Damon · Berlinale 2023 · Commons" },
+    "penelope": { "portrait": "assets/images/cast/anne-hathaway.jpg", "credit": "Anne Hathaway · Commons" },
+    "telemachus": { "portrait": "assets/images/cast/tom-holland.jpg", "credit": "Tom Holland · Commons" },
+    "athena": { "portrait": "assets/images/cast/zendaya.jpg", "credit": "Zendaya · Commons" },
+    "antinous": { "portrait": "assets/images/cast/robert-pattinson.jpg", "credit": "Robert Pattinson · Commons" },
+    "circe": { "portrait": "assets/images/cast/samantha-morton.jpg", "credit": "Samantha Morton · Commons" },
+    "calypso": { "portrait": "assets/images/cast/charlize-theron.jpg", "credit": "Charlize Theron · Commons" },
+    "helen": { "portrait": "assets/images/cast/lupita-nyongo.jpg", "credit": "Lupita Nyong'o · Commons" },
+    "menelaus": { "portrait": "assets/images/cast/jon-bernthal.jpg", "credit": "Jon Bernthal · Commons" },
+    "polyphemus": { "portrait": "assets/images/cast/bill-irwin.jpg", "credit": "Bill Irwin · Commons" }
   },
   "books": {
     "1": { "hero": "assets/images/places/place-olympus.jpg", "motif": "诸神议事" },

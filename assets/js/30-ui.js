@@ -62,7 +62,18 @@
     },
 
     charPortrait(id) {
+      const c = this.geo.characters.find((x) => x.id === id);
+      if (c?.filmPortrait) return c.filmPortrait;
       return (this.media().characters || {})[id]?.portrait || null;
+    },
+    charActor(id) {
+      const c = this.geo.characters.find((x) => x.id === id);
+      return c?.filmActor || null;
+    },
+    imgTag(src, alt, cls = '') {
+      const url = esc(asset(src));
+      const fallback = esc(asset('assets/images/mediterranean-cinema-bg.jpg'));
+      return `<img class="${cls}" src="${url}" alt="${esc(alt || '')}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallback}'">`;
     },
 
     _bindModes() {
@@ -213,7 +224,7 @@
       if (!src) return '';
       const url = esc(asset(src));
       return `<div class="media-hero" data-lb="${url}" data-cap="${esc(cap || '')}" role="button" tabindex="0" title="点击放大">
-        <img src="${url}" alt="${esc(cap || '')}" loading="lazy">
+        ${this.imgTag(src, cap || '')}
         <span class="zoom-hint">点击放大</span>
         ${cap ? `<div class="cap">${esc(cap)}</div>` : ''}
       </div>`;
@@ -226,7 +237,7 @@
           const url = esc(asset(g.src));
           const title = esc(g.caption || g.title || '');
           return `<div class="media-card" data-lb="${url}" data-cap="${title}" role="button" tabindex="0">
-          <img src="${url}" alt="" loading="lazy">
+          ${this.imgTag(g.src, title)}
           <div class="meta"><b>${title}</b><small>${esc(g.credit || '')}</small></div>
         </div>`;
         })
@@ -345,9 +356,14 @@
       const portraits = chars
         .map((c) => {
           const port = this.charPortrait(c.id);
+          const actor = this.charActor(c.id);
           if (!port) return `<span class="chip">${esc(c.name)}</span>`;
           const url = esc(asset(port));
-          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(c.name)}"><img src="${url}" alt="${esc(c.name)}" loading="lazy"><span>${esc(c.name)}</span></div>`;
+          const cap = actor ? `${c.name} · ${actor}` : c.name;
+          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(cap)}">
+            ${this.imgTag(port, cap)}
+            <span>${esc(c.name)}${actor ? `<small>${esc(actor)}</small>` : ''}</span>
+          </div>`;
         })
         .join('');
       const hasPortraits = chars.some((c) => this.charPortrait(c.id));
@@ -383,13 +399,18 @@
       const pantheon = (m.pantheon || [])
         .map((g) => `<div class="beat no-thumb"><div class="beat-body"><h4>${esc(g.name)} · ${esc(g.greek)}</h4><p class="dim">${esc(g.domain)}</p><p>${esc(g.odysseyRole)}</p></div></div>`)
         .join('');
-      const keyChars = ['athena', 'odysseus', 'penelope']
+      const keyChars = ['odysseus', 'penelope', 'telemachus', 'athena', 'circe', 'calypso']
         .map((id) => {
           const c = this.geo.characters.find((x) => x.id === id);
           const port = this.charPortrait(id);
           if (!c || !port) return '';
+          const actor = this.charActor(id);
           const url = esc(asset(port));
-          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(c.name)}"><img src="${url}" alt="${esc(c.name)}" loading="lazy"><span>${esc(c.name)}</span></div>`;
+          const cap = actor ? `${c.name} · ${actor}` : c.name;
+          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(cap)}">
+            ${this.imgTag(port, cap)}
+            <span>${esc(c.name)}${actor ? `<small>${esc(actor)}</small>` : ''}</span>
+          </div>`;
         })
         .join('');
       $('#detailPanel').innerHTML = `
@@ -444,27 +465,35 @@
 
     _renderFilm() {
       const f = this.geo.film;
-      const hero = 'assets/images/ship-hero-cinema.jpg';
-      const cast = (f.cast || []).map((c) => `<li><b>${esc(c.actor)}</b> — ${esc(c.role)}</li>`).join('');
+      const hero = (f.stills && f.stills[0]?.src) || 'assets/images/film/premiere-damon-nolan-hathaway.jpg';
+      const castCards = (f.cast || [])
+        .map((c) => {
+          if (!c.portrait) return `<div class="cast-chip"><b>${esc(c.actor)}</b><i>${esc(c.role)}</i></div>`;
+          const url = esc(asset(c.portrait));
+          const cap = `${c.actor} · ${c.role}`;
+          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(cap)}">
+            ${this.imgTag(c.portrait, cap)}
+            <span>${esc(c.role)}<small>${esc(c.actor)}</small></span>
+          </div>`;
+        })
+        .join('');
       const map = (f.epicMapping || [])
         .map((m) => `<tr><td>${String(m.book).padStart(2, '0')}</td><td>${esc(m.epic)}</td><td class="film-note">${esc(m.filmNote)}</td></tr>`)
         .join('');
-      const related = this._galleryStrip([
-        { src: 'assets/images/art/olympias-trireme.jpg', title: '三列桨战舰复原', credit: '历史影像参照' },
-        { src: 'assets/images/places/place-troy.jpg', title: '特洛伊视觉', credit: 'Codex 场景' },
-        { src: 'assets/images/art/flaxman-dog.jpg', title: '归乡主题', credit: 'Flaxman · PD' },
-      ]);
+      const stills = this._galleryStrip(f.stills || []);
       this._openDetail();
       $('#detailPanel').innerHTML = `
         <div class="detail-title">${esc(f.title || 'The Odyssey')}</div>
-        <div class="detail-sub">${esc(f.releaseDate || '')}</div>
+        <div class="detail-sub">${esc(f.releaseDate || '')} · ${esc(f.director || '')}</div>
         <p>${esc(f.officialLogline || '')}</p>
-        ${this._heroHtml(hero, 'NOLAN · IMAX 70MM')}
-        <p class="section-label">视觉参照</p>${related}
-        <p class="section-label">阵容</p><ul class="cast-list">${cast}</ul>
+        ${this._heroHtml(hero, 'PREMIERE · REAL CAST')}
+        <p class="section-label">电影阵容（真人）</p>
+        <div class="portrait-row cast-grid">${castCards}</div>
+        <p class="section-label">首映 / 发布会实拍</p>${stills}
         <p class="section-label">史诗对照</p>
         <table class="film-table"><tbody>${map}</tbody></table>
-        <p class="disclaimer">${esc(f.disclaimer || '')}</p>`;
+        <p class="disclaimer">${esc(f.disclaimer || '')}</p>
+        <p class="credit-line">${esc(this.media().creditNote || '')}</p>`;
     },
 
     _search(q) {

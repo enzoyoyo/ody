@@ -28,8 +28,11 @@
 | 键名 | 说明 |
 |------|------|
 | `universal_announcement_2024-12` | Universal 2024年12月官方公告 |
-| `deadline_nolan_odyssey` | Deadline 制作与阵容报道 |
-| `hollywood_reporter_review_2026` | THR 2026年影评中的公开制作信息 |
+| `wikipedia_odyssey_2026_film` | 维基百科：The Odyssey (2026 film) 阵容与制作 |
+| `hollywood_reporter_odyssey_cast` | Hollywood Reporter 阵容角色指南 |
+| `rottentomatoes_odyssey_2026_cast` | Rotten Tomatoes Cast & Crew |
+| `commons_cast_portraits` | Wikimedia Commons 演员公开活动肖像 |
+| `commons_odyssey_premiere` | Wikimedia Commons：奥德赛首映/发布会摄影（Philip Romano 等） |
 
 ## 罗马与后世
 
