@@ -364,6 +364,15 @@ footer{
 
 <script>window.__SPLIT__={"data":"assets/data-8b17968050.json","app":"assets/app-4600157714.js"};</script>
 <script>
+(function(){
+  const CDN='https://cdn.jsdelivr.net/gh/enzoyoyo/ody@main/';
+  const h=location.hostname;
+  const local=/^(localhost|127\.0\.0\.1)$/.test(h);
+  if(!local&&__SPLIT__){
+    if(__SPLIT__.data&&!__SPLIT__.data.startsWith('http'))__SPLIT__.data=CDN+__SPLIT__.data;
+    if(__SPLIT__.app&&!__SPLIT__.app.startsWith('http'))__SPLIT__.app=CDN+__SPLIT__.app;
+  }
+})();
 (async()=>{
   const lo=document.getElementById('loading');
   const say=t=>{if(lo)lo.textContent=t;};
