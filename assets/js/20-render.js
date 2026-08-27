@@ -33,8 +33,10 @@
     }
 
     _bind() {
+      this._moved = false;
       this.canvas.addEventListener('mousedown', (e) => {
         this.dragging = true;
+        this._moved = false;
         this.dragStart = [e.clientX, e.clientY];
         this.camStart = [this.cam.x, this.cam.y];
         this.canvas.classList.add('dragging');
@@ -46,8 +48,11 @@
           O.UI?.showTip(this.hovered, e.clientX - r.left, e.clientY - r.top);
           return;
         }
-        this.cam.x = this.camStart[0] + (e.clientX - this.dragStart[0]);
-        this.cam.y = this.camStart[1] + (e.clientY - this.dragStart[1]);
+        const dx = e.clientX - this.dragStart[0];
+        const dy = e.clientY - this.dragStart[1];
+        if (Math.hypot(dx, dy) > 4) this._moved = true;
+        this.cam.x = this.camStart[0] + dx;
+        this.cam.y = this.camStart[1] + dy;
         this.cam.tx = this.cam.x;
         this.cam.ty = this.cam.y;
       });
@@ -56,6 +61,7 @@
         this.canvas.classList.remove('dragging');
       });
       this.canvas.addEventListener('click', (e) => {
+        if (this._moved) return;
         const r = this.canvas.getBoundingClientRect();
         const p = this._hit(e.clientX - r.left, e.clientY - r.top);
         if (p) O.UI?.showPlace(p);

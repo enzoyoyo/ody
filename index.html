@@ -66,7 +66,7 @@
     </header>
 
     <aside class="hud-left">
-      <div class="panel">
+      <div class="panel layers-panel">
         <div class="panel-head">Layers</div>
         <div class="panel-body">
           <label class="layer-toggle"><input type="checkbox" data-layer="route" checked> 航线光轨</label>
@@ -76,7 +76,7 @@
           <label class="layer-toggle"><input type="checkbox" data-layer="waves" checked> 海浪动画</label>
         </div>
       </div>
-      <div class="panel">
+      <div class="panel nav-panel">
         <div class="panel-head">Navigator</div>
         <div class="panel-body nav-list" id="navList"></div>
       </div>
@@ -111,12 +111,14 @@
 </div>
 
 <div id="lightbox" class="lightbox" aria-hidden="true">
-  <button type="button" class="lb-close" id="lbClose">✕</button>
-  <img id="lbImg" alt="">
-  <div class="lb-cap" id="lbCap"></div>
+  <button type="button" class="lb-close" id="lbClose" aria-label="关闭">✕</button>
+  <div class="lightbox-inner">
+    <img id="lbImg" alt="">
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
 </div>
 
-<script>window.__SPLIT__={"data":"assets/data-286bccb442.json?v=c2923943","app":"assets/app-87c74a2c8b.js?v=c2923943","css":"assets/css/ody-fe773c5cc4.css?v=c2923943","version":"c2923943"};</script>
+<script>window.__SPLIT__={"data":"assets/data-286bccb442.json?v=e0dd48ed","app":"assets/app-e854526da5.js?v=e0dd48ed","css":"assets/css/ody-1b914f8909.css?v=e0dd48ed","version":"e0dd48ed"};</script>
 <script>
 (function(){
   const h=location.host;

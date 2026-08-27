@@ -17,6 +17,13 @@
     if (/^https?:\/\//.test(path)) return path;
     return (window.__CDN__ || '') + path;
   }
+  function esc(s) {
+    return String(s ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/"/g, '&quot;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+  }
 
   const UI = {
     geo: null,
@@ -63,7 +70,7 @@
         btn.addEventListener('click', () => {
           this.store.setState({ mode: btn.dataset.mode, filmOpen: false, detailOpen: true });
           document.querySelectorAll('.mode-pills button').forEach((b) => b.classList.toggle('active', b === btn));
-          $('.hud-right')?.classList.remove('collapsed');
+          this._openDetail();
         });
       });
     },
@@ -79,7 +86,10 @@
     },
 
     _bindHeader() {
-      $('#filmBtn')?.addEventListener('click', () => this.store.setState({ filmOpen: true, detailOpen: true }));
+      $('#filmBtn')?.addEventListener('click', () => {
+        this.store.setState({ filmOpen: true, detailOpen: true });
+        this._openDetail();
+      });
       $('#searchBtn')?.addEventListener('click', () => $('#searchModal')?.classList.add('open'));
       $('#searchModal')?.addEventListener('click', (e) => {
         if (e.target.id === 'searchModal') e.currentTarget.classList.remove('open');
@@ -108,10 +118,23 @@
     },
 
     _bindLightbox() {
+      // Document-level delegation — survives innerHTML rewrites
+      document.addEventListener('click', (e) => {
+        const hit = e.target.closest('[data-lb]');
+        if (!hit) return;
+        // Don't hijack nav place/book clicks that also carry thumbs without expand intent
+        if (hit.classList.contains('nav-item') && !hit.hasAttribute('data-expand')) return;
+        e.preventDefault();
+        e.stopPropagation();
+        this.openLightbox(hit.getAttribute('data-lb'), hit.getAttribute('data-cap') || '');
+      });
       const lb = $('#lightbox');
-      $('#lbClose')?.addEventListener('click', () => this.closeLightbox());
+      $('#lbClose')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.closeLightbox();
+      });
       lb?.addEventListener('click', (e) => {
-        if (e.target === lb) this.closeLightbox();
+        if (e.target === lb || e.target.id === 'lbClose') this.closeLightbox();
       });
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') this.closeLightbox();
@@ -120,23 +143,28 @@
 
     openLightbox(src, cap) {
       const lb = $('#lightbox');
-      if (!lb) return;
-      $('#lbImg').src = asset(src);
+      const img = $('#lbImg');
+      if (!lb || !img || !src) return;
+      img.src = asset(src);
+      img.alt = cap || '';
       $('#lbCap').textContent = cap || '';
       lb.classList.add('open');
       lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
     },
 
     closeLightbox() {
       const lb = $('#lightbox');
-      lb?.classList.remove('open');
-      lb?.setAttribute('aria-hidden', 'true');
+      if (!lb) return;
+      lb.classList.remove('open');
+      lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
     },
 
     setBook(n) {
       const book = Math.max(this.geo.CFG.startBook, Math.min(this.geo.CFG.endBook, n));
       this.store.setState({ book, filmOpen: false, detailOpen: true, mode: this.store.getState().mode === 'gallery' ? 'books' : this.store.getState().mode });
-      $('.hud-right')?.classList.remove('collapsed');
+      this._openDetail();
       this.map.focusBook(book);
     },
 
@@ -169,56 +197,64 @@
         return;
       }
       const hero = this.placeMedia(p.id)?.hero;
-      tip.innerHTML = `${hero ? `<img src="${asset(hero)}" alt="" style="width:120px;height:68px;object-fit:cover;border-radius:8px;display:block;margin-bottom:8px">` : ''}
-        <b>${p.name}</b><br><small>${p.greek || ''} · ${confLabel(p.confidence)}</small>`;
-      tip.style.left = mx + 16 + 'px';
-      tip.style.top = my + 16 + 'px';
+      tip.innerHTML = `${hero ? `<img src="${esc(asset(hero))}" alt="">` : ''}
+        <b>${esc(p.name)}</b><br><small>${esc(p.greek || '')} · ${confLabel(p.confidence)}</small>`;
       tip.classList.add('show');
+      const stage = tip.parentElement;
+      const tw = tip.offsetWidth || 160;
+      const th = tip.offsetHeight || 80;
+      const maxX = (stage?.clientWidth || window.innerWidth) - tw - 12;
+      const maxY = (stage?.clientHeight || window.innerHeight) - th - 12;
+      tip.style.left = Math.max(8, Math.min(mx + 16, maxX)) + 'px';
+      tip.style.top = Math.max(8, Math.min(my + 16, maxY)) + 'px';
     },
 
     _heroHtml(src, cap) {
       if (!src) return '';
-      return `<div class="media-hero" data-lb="${asset(src)}" data-cap="${cap || ''}">
-        <img src="${asset(src)}" alt="${cap || ''}" loading="lazy">
-        ${cap ? `<div class="cap">${cap}</div>` : ''}
+      const url = esc(asset(src));
+      return `<div class="media-hero" data-lb="${url}" data-cap="${esc(cap || '')}" role="button" tabindex="0" title="点击放大">
+        <img src="${url}" alt="${esc(cap || '')}" loading="lazy">
+        <span class="zoom-hint">点击放大</span>
+        ${cap ? `<div class="cap">${esc(cap)}</div>` : ''}
       </div>`;
     },
 
     _galleryStrip(items) {
       if (!items?.length) return '';
       return `<div class="media-strip">${items
-        .map(
-          (g) => `<div class="media-card" data-lb="${asset(g.src)}" data-cap="${g.caption || g.title || ''}">
-          <img src="${asset(g.src)}" alt="" loading="lazy">
-          <div class="meta"><b>${g.caption || g.title || ''}</b><small>${g.credit || ''}</small></div>
-        </div>`
-        )
+        .map((g) => {
+          const url = esc(asset(g.src));
+          const title = esc(g.caption || g.title || '');
+          return `<div class="media-card" data-lb="${url}" data-cap="${title}" role="button" tabindex="0">
+          <img src="${url}" alt="" loading="lazy">
+          <div class="meta"><b>${title}</b><small>${esc(g.credit || '')}</small></div>
+        </div>`;
+        })
         .join('')}</div>`;
     },
 
-    _bindMediaClicks(root) {
-      root.querySelectorAll('[data-lb]').forEach((el) => {
-        el.addEventListener('click', () => this.openLightbox(el.dataset.lb, el.dataset.cap));
-      });
+    _openDetail() {
+      const dock = $('.hud-right');
+      dock?.classList.remove('collapsed');
+      dock?.classList.add('open');
     },
 
     showPlace(p) {
       this.store.setState({ detailOpen: true, filmOpen: false });
-      $('.hud-right')?.classList.remove('collapsed');
+      this._openDetail();
       const beats = this.geo.beats.filter((b) => b.placeId === p.id);
-      const html = beats.map((b) => `<li><b>${String(b.book).padStart(2, '0')}</b> ${b.title}</li>`).join('');
+      const html = beats.map((b) => `<li><b>${String(b.book).padStart(2, '0')}</b> ${esc(b.title)}</li>`).join('');
       const pm = this.placeMedia(p.id);
       const hero = pm?.hero || 'assets/images/mediterranean-cinema-bg.jpg';
       $('#detailPanel').innerHTML = `
-        ${this._heroHtml(hero, p.name)}
-        <div class="detail-title">${p.name}</div>
-        <div class="detail-sub">${p.greek || ''}</div>
+        <div class="detail-title">${esc(p.name)}</div>
+        <div class="detail-sub">${esc(p.greek || '')}</div>
         ${badge(p.confidence)}
-        <p>${p.note || ''}</p>
+        <p>${esc(p.note || '')}</p>
+        ${this._heroHtml(hero, p.name)}
         ${pm?.gallery?.length ? `<p class="section-label">史料影像</p>${this._galleryStrip(pm.gallery)}` : ''}
         ${html ? `<p class="section-label">情节</p><ul class="place-beats">${html}</ul>` : ''}
-        <p class="credit-line">${this.media().creditNote || ''}</p>`;
-      this._bindMediaClicks($('#detailPanel'));
+        <p class="credit-line">${esc(this.media().creditNote || '')}</p>`;
     },
 
     render(st) {
@@ -267,10 +303,9 @@
         const videos = this.media().videos || [];
         const gallery = this.media().gallery || [];
         el.innerHTML = [
-          ...videos.map((v) => `<div class="nav-item" data-jump="video"><span class="nav-dot" style="background:var(--gold)"></span><div><b>影片</b><i>${v.title}</i></div></div>`),
-          ...gallery.slice(0, 8).map((g) => `<div class="nav-item" data-lb="${asset(g.src)}" data-cap="${g.title}"><img class="nav-thumb" src="${asset(g.src)}" alt=""><div><b>${g.title}</b><i>${g.credit || ''}</i></div></div>`),
+          ...videos.map((v) => `<div class="nav-item" data-jump="video"><span class="nav-dot" style="background:var(--gold)"></span><div><b>影片</b><i>${esc(v.title)}</i></div></div>`),
+          ...gallery.slice(0, 8).map((g) => `<div class="nav-item" data-expand data-lb="${esc(asset(g.src))}" data-cap="${esc(g.title)}"><img class="nav-thumb" src="${esc(asset(g.src))}" alt=""><div><b>${esc(g.title)}</b><i>${esc(g.credit || '')}</i></div></div>`),
         ].join('');
-        this._bindMediaClicks(el);
         return;
       }
       const activeIds = new Set(this.geo.beats.filter((bt) => bt.book === st.book).map((bt) => bt.placeId));
@@ -300,34 +335,37 @@
       const beatHtml = beats
         .map((bt) => {
           const thumb = bt.placeId ? this.placeMedia(bt.placeId)?.hero : null;
-          return `<div class="beat" data-place="${bt.placeId || ''}">
-            ${thumb ? `<img src="${asset(thumb)}" alt="" style="width:100%;height:88px;object-fit:cover;border-radius:8px;margin-bottom:8px" loading="lazy">` : ''}
-            <h4>${bt.title}</h4>${badge(bt.confidence)}<p>${bt.text}</p></div>`;
+          const thumbUrl = thumb ? esc(asset(thumb)) : '';
+          return `<div class="beat ${thumb ? '' : 'no-thumb'}" data-place="${esc(bt.placeId || '')}">
+            ${thumb ? `<img class="beat-thumb" src="${thumbUrl}" alt="" loading="lazy" data-lb="${thumbUrl}" data-cap="${esc(bt.title)}">` : ''}
+            <div class="beat-body"><h4>${esc(bt.title)}</h4>${badge(bt.confidence)}<p>${esc(bt.text)}</p></div></div>`;
         })
         .join('');
       const chars = this.geo.characters.filter((c) => c.books?.includes(book));
       const portraits = chars
         .map((c) => {
           const port = this.charPortrait(c.id);
-          if (!port) return `<span class="chip">${c.name}</span>`;
-          return `<div class="portrait-card" data-lb="${asset(port)}" data-cap="${c.name}"><img src="${asset(port)}" alt="${c.name}" loading="lazy"><span>${c.name}</span></div>`;
+          if (!port) return `<span class="chip">${esc(c.name)}</span>`;
+          const url = esc(asset(port));
+          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(c.name)}"><img src="${url}" alt="${esc(c.name)}" loading="lazy"><span>${esc(c.name)}</span></div>`;
         })
         .join('');
       const hasPortraits = chars.some((c) => this.charPortrait(c.id));
       const bh = this.bookHero(book);
       $('#detailPanel').innerHTML = `
-        ${this._heroHtml(bh.hero, bh.motif || b.title)}
-        <div class="detail-title">${b.title}</div>
-        <div class="detail-sub">${b.subtitle || ''}</div>
+        <div class="detail-title">${esc(b.title)}</div>
+        <div class="detail-sub">${esc(b.subtitle || '')}</div>
         ${badge(b.confidence)}
-        <p><b>局势</b> ${b.situation || ''}</p>
-        <p>${b.narrative || ''}</p>
-        ${b.filmNote ? `<p class="film-inline">FILM · ${b.filmNote}</p>` : ''}
+        <p><b>局势</b> ${esc(b.situation || '')}</p>
+        <p>${esc(b.narrative || '')}</p>
+        ${this._heroHtml(bh.hero, bh.motif || b.title)}
+        ${b.filmNote ? `<p class="film-inline">FILM · ${esc(b.filmNote)}</p>` : ''}
         <p class="section-label">本卷节点</p>${beatHtml}
         ${chars.length ? `<p class="section-label">人物</p>${hasPortraits ? `<div class="portrait-row">${portraits}</div>` : `<div class="chip-row">${portraits}</div>`}` : ''}
-        <p class="credit-line">${this.media().creditNote || ''}</p>`;
+        <p class="credit-line">${esc(this.media().creditNote || '')}</p>`;
       $('#detailPanel').querySelectorAll('.beat').forEach((el) => {
-        el.addEventListener('click', () => {
+        el.addEventListener('click', (e) => {
+          if (e.target.closest('[data-lb]')) return; // let lightbox handle
           const p = this.geo.placeIdx[el.dataset.place];
           if (p) {
             this.showPlace(p);
@@ -335,47 +373,48 @@
           }
         });
       });
-      this._bindMediaClicks($('#detailPanel'));
     },
 
     _renderMythos() {
       const m = this.geo.mythology;
       const sections = (m.sections || [])
-        .map((s) => `<div class="beat"><h4>${s.title}</h4>${badge(s.confidence)}<p>${s.text}</p></div>`)
+        .map((s) => `<div class="beat no-thumb"><div class="beat-body"><h4>${esc(s.title)}</h4>${badge(s.confidence)}<p>${esc(s.text)}</p></div></div>`)
         .join('');
       const pantheon = (m.pantheon || [])
-        .map((g) => `<div class="beat"><h4>${g.name} · ${g.greek}</h4><p class="dim">${g.domain}</p><p>${g.odysseyRole}</p></div>`)
+        .map((g) => `<div class="beat no-thumb"><div class="beat-body"><h4>${esc(g.name)} · ${esc(g.greek)}</h4><p class="dim">${esc(g.domain)}</p><p>${esc(g.odysseyRole)}</p></div></div>`)
         .join('');
       const keyChars = ['athena', 'odysseus', 'penelope']
         .map((id) => {
           const c = this.geo.characters.find((x) => x.id === id);
           const port = this.charPortrait(id);
           if (!c || !port) return '';
-          return `<div class="portrait-card" data-lb="${asset(port)}" data-cap="${c.name}"><img src="${asset(port)}" alt="${c.name}" loading="lazy"><span>${c.name}</span></div>`;
+          const url = esc(asset(port));
+          return `<div class="portrait-card" data-lb="${url}" data-cap="${esc(c.name)}"><img src="${url}" alt="${esc(c.name)}" loading="lazy"><span>${esc(c.name)}</span></div>`;
         })
         .join('');
       $('#detailPanel').innerHTML = `
-        ${this._heroHtml('assets/images/places/place-olympus.jpg', '奥林匹斯')}
-        <div class="detail-title">${m.title || '神话谱系'}</div>
+        <div class="detail-title">${esc(m.title || '神话谱系')}</div>
         <div class="detail-sub">THEOGONY → ILIAD → ODYSSEY</div>
+        <p>从神谱到特洛伊，再到奥德修斯归乡——阅读优先，图像作辅证。</p>
+        ${this._heroHtml('assets/images/places/place-olympus.jpg', '奥林匹斯')}
         ${keyChars ? `<div class="portrait-row">${keyChars}</div>` : ''}
         ${sections}<p class="section-label">奥林匹斯</p>${pantheon}
-        <p class="credit-line">${this.media().creditNote || ''}</p>`;
-      this._bindMediaClicks($('#detailPanel'));
+        <p class="credit-line">${esc(this.media().creditNote || '')}</p>`;
     },
 
     _renderGallery() {
       const videos = this.media().videos || [];
       const audio = this.media().audio || [];
       const gallery = this.media().gallery || [];
+      this._openDetail();
       const videoHtml = videos
         .map(
           (v) => `<div>
-          <p class="section-label">${v.title}</p>
-          <p class="video-meta">${v.desc} · ${v.duration || ''} · <a href="${v.sourceUrl}" target="_blank" rel="noopener">${v.license}</a></p>
+          <p class="section-label">${esc(v.title)}</p>
+          <p class="video-meta">${esc(v.desc)} · ${esc(v.duration || '')} · <a href="${esc(v.sourceUrl)}" target="_blank" rel="noopener">${esc(v.license)}</a></p>
           <div class="video-frame">
-            <video controls preload="metadata" poster="${asset(v.poster)}" crossorigin="anonymous">
-              <source src="${v.src}" type="video/webm">
+            <video controls playsinline preload="metadata" poster="${esc(asset(v.poster))}">
+              <source src="${esc(v.src)}" type="video/webm">
             </video>
           </div>
         </div>`
@@ -384,50 +423,48 @@
       const audioHtml = audio
         .map(
           (a) => `<div>
-          <p class="section-label">${a.title}</p>
-          <p class="video-meta">${a.desc} · <a href="${a.sourceUrl}" target="_blank" rel="noopener">${a.license}</a></p>
+          <p class="section-label">${esc(a.title)}</p>
+          <p class="video-meta">${esc(a.desc)} · <a href="${esc(a.sourceUrl)}" target="_blank" rel="noopener">${esc(a.license)}</a></p>
           <div class="video-frame" style="aspect-ratio:16/9">
-            <iframe src="${a.embed}" title="${a.title}" allow="encrypted-media" loading="lazy"></iframe>
+            <iframe src="${esc(a.embed)}" title="${esc(a.title)}" allow="encrypted-media" loading="lazy"></iframe>
           </div>
         </div>`
         )
         .join('');
       $('#detailPanel').innerHTML = `
-        ${this._heroHtml('assets/images/art/olympias-trireme.jpg', '映像馆 · ARCHIVE')}
         <div class="detail-title">映像馆</div>
         <div class="detail-sub">PUBLIC DOMAIN · COMMONS · ARCHIVE</div>
-        <p>公版早期电影、有声书与古典绘画，与 Codex 场景插图并置，让史诗可读可看可听。</p>
+        <p>公版早期电影、有声书与古典绘画，与 Codex 场景插图并置。点图可放大。</p>
         ${videoHtml}
         ${audioHtml}
         <p class="section-label">古典绘画与遗址</p>
         ${this._galleryStrip(gallery)}
-        <p class="credit-line">${this.media().creditNote || ''}</p>`;
-      this._bindMediaClicks($('#detailPanel'));
+        <p class="credit-line">${esc(this.media().creditNote || '')}</p>`;
     },
 
     _renderFilm() {
       const f = this.geo.film;
       const hero = 'assets/images/ship-hero-cinema.jpg';
-      const cast = (f.cast || []).map((c) => `<li><b>${c.actor}</b> — ${c.role}</li>`).join('');
+      const cast = (f.cast || []).map((c) => `<li><b>${esc(c.actor)}</b> — ${esc(c.role)}</li>`).join('');
       const map = (f.epicMapping || [])
-        .map((m) => `<tr><td>${String(m.book).padStart(2, '0')}</td><td>${m.epic}</td><td class="film-note">${m.filmNote}</td></tr>`)
+        .map((m) => `<tr><td>${String(m.book).padStart(2, '0')}</td><td>${esc(m.epic)}</td><td class="film-note">${esc(m.filmNote)}</td></tr>`)
         .join('');
       const related = this._galleryStrip([
         { src: 'assets/images/art/olympias-trireme.jpg', title: '三列桨战舰复原', credit: '历史影像参照' },
         { src: 'assets/images/places/place-troy.jpg', title: '特洛伊视觉', credit: 'Codex 场景' },
         { src: 'assets/images/art/flaxman-dog.jpg', title: '归乡主题', credit: 'Flaxman · PD' },
       ]);
+      this._openDetail();
       $('#detailPanel').innerHTML = `
+        <div class="detail-title">${esc(f.title || 'The Odyssey')}</div>
+        <div class="detail-sub">${esc(f.releaseDate || '')}</div>
+        <p>${esc(f.officialLogline || '')}</p>
         ${this._heroHtml(hero, 'NOLAN · IMAX 70MM')}
-        <div class="detail-title">${f.title || 'The Odyssey'}</div>
-        <div class="detail-sub">${f.releaseDate || ''}</div>
-        <p>${f.officialLogline || ''}</p>
         <p class="section-label">视觉参照</p>${related}
         <p class="section-label">阵容</p><ul class="cast-list">${cast}</ul>
         <p class="section-label">史诗对照</p>
         <table class="film-table"><tbody>${map}</tbody></table>
-        <p class="disclaimer">${f.disclaimer || ''}</p>`;
-      this._bindMediaClicks($('#detailPanel'));
+        <p class="disclaimer">${esc(f.disclaimer || '')}</p>`;
     },
 
     _search(q) {
