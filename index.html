@@ -3,511 +3,128 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="荷马史诗《奥德赛》— Nolan 式史诗交互舆图">
+<meta name="description" content="荷马史诗《奥德赛》沉浸式神话舆图 — Nolan IMAX 美学">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>THE ODYSSEY · 奥德赛神话舆图</title>
-<link rel="preload" as="image" href="assets/images/map-ocean-night.jpg">
-<link rel="preload" as="image" href="assets/images/film-odyssey-hero.jpg">
+<link rel="preload" as="image" href="assets/images/mediterranean-cinema-bg.jpg">
+<link rel="preload" as="image" href="assets/images/ship-hero-cinema.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --void:#000000;
-  --deep:#050810;
-  --panel:#080c14;
-  --glass:rgba(6,10,18,.92);
-  --glass-border:rgba(180,210,240,.12);
-  --ink:#e8ecf2;
-  --ink2:#9aa8bc;
-  --ink3:#5c6d82;
-  --cyan:#5eb8d9;
-  --cyan-dim:#2a6a88;
-  --amber:#d4a84b;
-  --amber-glow:#f0c96a;
-  --teal:#1e3a52;
-  --line:rgba(140,170,200,.14);
-  --display:"Cinzel","Noto Serif SC",serif;
-  --ui:"DM Sans","Noto Serif SC",sans-serif;
-  --body:"Noto Serif SC",serif;
-  --ease:cubic-bezier(.22,1,.36,1);
-}
-html[data-theme="day"]{
-  --void:#e8eef4;
-  --deep:#d4dce8;
-  --panel:#f0f4f8;
-  --glass:rgba(240,244,248,.88);
-  --glass-border:rgba(30,50,70,.12);
-  --ink:#0c1420;
-  --ink2:#3d5068;
-  --ink3:#6a7d92;
-  --cyan:#1e6a8a;
-  --cyan-dim:#4a9ab8;
-  --amber:#8a6520;
-  --amber-glow:#a07828;
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-button,input,label{touch-action:manipulation;font-family:var(--ui)}
-#map,#tlcanvas{touch-action:none}
-html,body{height:100%;margin:0;overscroll-behavior:none}
-body{
-  background:var(--void);
-  color:var(--ink);
-  font-family:var(--body);
-  overflow:hidden;
-  -webkit-font-smoothing:antialiased;
-}
-#app{
-  display:grid;
-  grid-template-columns:280px minmax(0,1fr) 380px;
-  grid-template-rows:auto minmax(0,1fr) 72px;
-  height:100vh;
-  background:var(--void);
-}
-header{
-  grid-column:1/-1;
-  display:flex;align-items:center;gap:20px;
-  padding:0 24px;height:56px;
-  background:linear-gradient(180deg,rgba(8,12,18,.95),rgba(4,6,8,.6));
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(12px);
-  z-index:20;
-}
-.brand{display:flex;align-items:center;gap:14px;flex:none}
-.logo-ring{
-  width:40px;height:40px;border-radius:50%;
-  border:1px solid var(--amber);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--display);font-size:18px;color:var(--amber-glow);
-  box-shadow:0 0 24px rgba(212,168,75,.25),inset 0 0 12px rgba(212,168,75,.08);
-  animation:logoPulse 4s ease-in-out infinite;
-}
-@keyframes logoPulse{0%,100%{box-shadow:0 0 20px rgba(212,168,75,.2)}50%{box-shadow:0 0 32px rgba(212,168,75,.45)}}
-h1{
-  font-family:var(--display);font-size:15px;margin:0;
-  letter-spacing:.28em;font-weight:600;color:var(--ink);
-  line-height:1.2;
-}
-h1 em{font-style:normal;color:var(--amber-glow);letter-spacing:.35em}
-h1 small{
-  display:block;font-size:9px;letter-spacing:.42em;
-  color:var(--ink3);margin-top:4px;font-family:var(--ui);font-weight:500;
-}
-.modes{
-  display:flex;gap:2px;padding:3px;
-  background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:999px;
-}
-.modes button{
-  background:transparent;border:0;color:var(--ink2);
-  font-family:var(--ui);font-size:11px;font-weight:500;
-  letter-spacing:.14em;padding:7px 18px;border-radius:999px;
-  cursor:pointer;transition:all .35s var(--ease);
-}
-.modes button:hover{color:var(--ink);background:rgba(94,184,217,.08)}
-.modes button[aria-pressed="true"]{
-  background:linear-gradient(135deg,var(--cyan-dim),var(--teal));
-  color:var(--ink);box-shadow:0 4px 20px rgba(46,120,160,.35);
-}
-.hbtns{margin-left:auto;display:flex;gap:6px;align-items:center}
-.hbtn{
-  background:var(--glass);border:1px solid var(--glass-border);
-  color:var(--ink2);font-size:10px;font-weight:500;
-  letter-spacing:.12em;padding:7px 14px;border-radius:6px;
-  cursor:pointer;transition:all .3s var(--ease);backdrop-filter:blur(8px);
-}
-.hbtn:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-1px)}
-.hbtn.film-btn{border-color:rgba(212,168,75,.35);color:var(--amber-glow)}
-.hbtn.film-btn:hover{background:rgba(212,168,75,.12);border-color:var(--amber)}
-aside{
-  background:linear-gradient(180deg,rgba(4,8,14,.97),rgba(2,4,8,.98));
-  backdrop-filter:blur(24px);
-  border-right:1px solid rgba(212,168,75,.15);
-  overflow-y:auto;overflow-x:hidden;
-  animation:slideIn .6s var(--ease) both;
-}
-#right{border-right:0;border-left:1px solid rgba(212,168,75,.15);animation-delay:.08s}
-.version-badge{
-  font-family:var(--ui);font-size:9px;letter-spacing:.22em;
-  color:var(--amber-glow);border:1px solid rgba(212,168,75,.4);
-  padding:4px 8px;border-radius:4px;margin-left:8px;
-  animation:logoPulse 3s ease-in-out infinite;
-}
-#cinematicIntro{
-  position:fixed;inset:0;z-index:200;background:#000;
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity 1.2s var(--ease),visibility 1.2s;
-}
-#cinematicIntro.hide{opacity:0;visibility:hidden;pointer-events:none}
-#cinematicIntro img{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;filter:brightness(.65) saturate(1.2);
-}
-#cinematicIntro .intro-veil{
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.85) 70%);
-}
-.intro-copy{position:relative;z-index:2;text-align:center;padding:24px}
-.intro-copy h2{
-  font-family:var(--display);font-size:42px;letter-spacing:.55em;
-  color:#fff;margin:0 0 12px;font-weight:600;
-  text-shadow:0 0 60px rgba(94,184,217,.5);
-  animation:introGlow 2s ease-in-out infinite alternate;
-}
-.intro-copy p{
-  font-family:var(--ui);font-size:11px;letter-spacing:.5em;color:var(--amber-glow);
-}
-@keyframes introGlow{from{opacity:.85}to{opacity:1;text-shadow:0 0 80px rgba(240,200,100,.6)}}
-@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.pnl{padding:16px 18px;border-bottom:1px solid var(--line)}
-.pt{
-  font-family:var(--ui);font-size:10px;font-weight:600;
-  letter-spacing:.28em;text-transform:uppercase;
-  color:var(--ink3);margin:0 0 12px;
-}
-.lay{display:flex;flex-direction:column;gap:4px}
-.lay label{
-  display:flex;align-items:center;gap:10px;font-size:12px;
-  padding:8px 10px;border-radius:8px;cursor:pointer;
-  transition:background .25s;color:var(--ink2);
-}
-.lay label:hover{background:rgba(94,184,217,.08);color:var(--ink)}
-.lay input{
-  appearance:none;width:16px;height:16px;border:1px solid var(--ink3);
-  border-radius:4px;cursor:pointer;position:relative;flex:none;
-  transition:all .25s;
-}
-.lay input:checked{background:var(--cyan);border-color:var(--cyan)}
-.lay input:checked::after{
-  content:"";position:absolute;left:4.5px;top:1px;width:4px;height:8px;
-  border:solid var(--void);border-width:0 2px 2px 0;transform:rotate(42deg);
-}
-#legend{display:flex;flex-direction:column;gap:2px}
-.lg{
-  display:flex;align-items:center;gap:10px;font-size:12px;
-  padding:10px 12px;border-radius:10px;cursor:pointer;
-  border:1px solid transparent;transition:all .3s var(--ease);
-}
-.lg:hover{background:rgba(94,184,217,.06);border-color:var(--line)}
-.lg.active{
-  background:linear-gradient(90deg,rgba(94,184,217,.12),transparent);
-  border-color:rgba(94,184,217,.25);
-  box-shadow:inset 0 0 20px rgba(94,184,217,.06);
-}
-.lg.legendary .sw{border:1px dashed var(--amber)}
-.sw{width:8px;height:8px;border-radius:50%;flex:none;background:var(--cyan)}
-.lg b{font-weight:600;font-family:var(--ui);font-size:11px;letter-spacing:.04em}
-.lg i{margin-left:auto;font-style:normal;font-size:10px;color:var(--ink3);max-width:100px;text-align:right}
-#stage{
-  position:relative;background:var(--void);overflow:hidden;
-}
-.letterbox{position:absolute;left:0;right:0;height:8%;background:var(--void);z-index:4;pointer-events:none}
-.letterbox.top{top:0}
-.letterbox.bottom{bottom:0}
-.vignette{
-  position:absolute;inset:0;pointer-events:none;z-index:3;
-  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.55) 100%);
-}
-html[data-theme="day"] .vignette{background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,.15) 100%)}
-.grain{
-  position:absolute;inset:0;pointer-events:none;z-index:5;opacity:.06;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation:grainShift .5s steps(2) infinite;
-}
-@keyframes grainShift{0%{transform:translate(0,0)}100%{transform:translate(-2%,-2%)}}
-#map{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab}
-#map.drag{cursor:grabbing}
-#tip{
-  position:absolute;pointer-events:none;
-  background:var(--glass);border:1px solid var(--glass-border);
-  backdrop-filter:blur(16px);padding:10px 14px;
-  font-size:12px;max-width:280px;line-height:1.55;
-  opacity:0;transition:opacity .2s;z-index:12;border-radius:10px;
-  box-shadow:0 12px 40px rgba(0,0,0,.45);
-}
-#tip.on{opacity:1}
-#tip b{font-family:var(--display);font-size:13px;color:var(--amber-glow)}
-#tip .k{color:var(--ink3);font-size:10px;margin-top:2px}
-#zoomc{position:absolute;right:16px;bottom:14%;display:flex;flex-direction:column;gap:6px;z-index:10}
-#zoomc button{
-  width:36px;height:36px;background:var(--glass);
-  border:1px solid var(--glass-border);color:var(--ink);
-  font-size:16px;cursor:pointer;border-radius:10px;
-  backdrop-filter:blur(8px);transition:all .25s;
-}
-#zoomc button:hover{border-color:var(--cyan);color:var(--cyan);transform:scale(1.05)}
-#loading{
-  position:absolute;inset:0;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:20px;
-  background:var(--void);z-index:30;
-  transition:opacity .8s var(--ease),visibility .8s;
-}
-#loading.out{opacity:0;visibility:hidden;pointer-events:none}
-.load-title{
-  font-family:var(--display);font-size:28px;letter-spacing:.5em;
-  color:var(--ink);animation:loadFade 2s ease-in-out infinite;
-}
-.load-sub{font-family:var(--ui);font-size:10px;letter-spacing:.4em;color:var(--ink3)}
-.load-bar{width:120px;height:2px;background:var(--line);border-radius:2px;overflow:hidden}
-.load-bar i{display:block;height:100%;width:30%;background:linear-gradient(90deg,var(--cyan),var(--amber));
-  animation:loadBar 1.8s var(--ease) infinite}
-@keyframes loadFade{0%,100%{opacity:.5}50%{opacity:1}}
-@keyframes loadBar{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
-#tourCard{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.96);
-  background:var(--glass);border:1px solid var(--glass-border);
-  backdrop-filter:blur(24px);z-index:25;max-width:440px;width:92%;
-  border-radius:16px;opacity:0;pointer-events:none;
-  transition:all .4s var(--ease);box-shadow:0 24px 80px rgba(0,0,0,.5);
-}
-#tourCard.on{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
-.tour-inner{padding:28px}
-.tour-inner h3{font-family:var(--display);margin:0 0 12px;font-size:16px;letter-spacing:.12em;color:var(--amber-glow)}
-.tour-inner p{font-size:13px;line-height:1.75;color:var(--ink2)}
-.tour-btns{display:flex;gap:8px;margin-top:20px}
-.tour-btns button{
-  padding:8px 16px;border:1px solid var(--line);background:transparent;
-  cursor:pointer;font-family:var(--ui);font-size:11px;letter-spacing:.1em;
-  color:var(--ink2);border-radius:8px;transition:all .25s;
-}
-.tour-btns button:hover{border-color:var(--cyan);color:var(--cyan)}
-#right .body{
-  font-size:13.5px;line-height:1.8;color:var(--ink2);
-  padding:0;overflow-y:auto;height:100%;
-}
-.body-inner{padding:20px 22px 32px;animation:fadeUp .5s var(--ease) both}
-@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.ttl{
-  font-family:var(--display);font-size:20px;letter-spacing:.1em;
-  margin:0 0 6px;color:var(--ink);line-height:1.3;
-}
-.sub{font-size:11px;color:var(--ink3);letter-spacing:.16em;margin-bottom:14px;font-family:var(--ui)}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12px;margin-bottom:10px}
-.kv span{color:var(--ink3);font-family:var(--ui);font-size:10px;letter-spacing:.08em}
-.kv b{color:var(--ink)}
-.section-h{
-  font-family:var(--ui);font-size:10px;font-weight:600;letter-spacing:.24em;
-  text-transform:uppercase;color:var(--cyan);margin:20px 0 10px;
-  padding-top:16px;border-top:1px solid var(--line);
-}
-.badge{
-  display:inline-block;font-size:9px;font-weight:600;letter-spacing:.1em;
-  padding:3px 8px;border-radius:4px;margin-bottom:10px;font-family:var(--ui);
-}
-.badge-consensus{background:rgba(94,184,217,.15);color:var(--cyan)}
-.badge-disputed{background:rgba(212,168,75,.15);color:var(--amber-glow)}
-.badge-legend{background:rgba(140,120,90,.2);color:var(--ink3)}
-.beat-card{
-  padding:12px 14px;margin-bottom:8px;
-  background:rgba(255,255,255,.03);border:1px solid var(--line);
-  border-radius:12px;cursor:pointer;transition:all .3s var(--ease);
-}
-.beat-card:hover{border-color:rgba(94,184,217,.35);transform:translateX(4px);background:rgba(94,184,217,.06)}
-.beat-card b{font-family:var(--ui);font-size:12px;font-weight:600;color:var(--ink)}
-.char-tags{display:flex;flex-wrap:wrap;gap:6px}
-.char-tag{
-  font-size:10px;padding:5px 10px;
-  background:rgba(94,184,217,.1);border:1px solid rgba(94,184,217,.2);
-  border-radius:999px;color:var(--cyan);font-family:var(--ui);
-}
-.film-hero{
-  position:relative;height:160px;margin:-20px -22px 20px;
-  background:var(--deep) center/cover no-repeat;
-  border-bottom:1px solid var(--line);
-}
-.film-hero::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,transparent 30%,var(--panel) 100%);
-}
-.film-hero-label{
-  position:absolute;bottom:14px;left:22px;z-index:1;
-  font-family:var(--display);font-size:11px;letter-spacing:.3em;color:var(--amber-glow);
-}
-.myth-card,.myth-section{
-  padding:12px 14px;margin-bottom:10px;
-  background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:12px;
-}
-.myth-grid{display:flex;flex-direction:column;gap:8px}
-.myth-card i{color:var(--ink3);font-style:normal;font-size:11px}
-.dim{color:var(--ink3);font-size:11px}
-.film-inline{font-size:12px;color:var(--amber-glow);padding:10px;border-radius:8px;background:rgba(212,168,75,.08)}
-.cast-list{font-size:12px;line-height:1.7;padding-left:18px;color:var(--ink2)}
-.film-table{width:100%;font-size:11px;border-collapse:collapse}
-.film-table th,.film-table td{border:1px solid var(--line);padding:6px 8px;text-align:left}
-.film-note{color:var(--ink3);font-size:10px}
-.disclaimer{font-size:10px;color:var(--ink3);margin-top:16px;font-style:italic;line-height:1.6}
-.place-beats{font-size:12px;line-height:1.7;padding-left:18px}
-footer{
-  grid-column:1/-1;display:flex;align-items:center;gap:16px;
-  padding:0 20px;height:72px;
-  background:linear-gradient(0deg,rgba(8,12,18,.95),rgba(4,6,8,.7));
-  border-top:1px solid var(--line);backdrop-filter:blur(12px);
-}
-#yBig{
-  font-family:var(--display);font-size:22px;letter-spacing:.15em;
-  color:var(--amber-glow);min-width:80px;font-weight:600;
-}
-#yEra1{font-size:11px;color:var(--ink3);flex:1;font-family:var(--ui);letter-spacing:.06em}
-#tlwrap{flex:1;min-width:0;height:48px;border-radius:8px;overflow:hidden;background:rgba(0,0,0,.25)}
-#tlcanvas{width:100%;height:48px;display:block;cursor:pointer}
-.playbtns{display:flex;gap:6px}
-.playbtns button{
-  width:40px;height:40px;border:1px solid var(--line);
-  background:var(--glass);cursor:pointer;border-radius:10px;
-  color:var(--cyan);font-size:14px;transition:all .25s;
-}
-.playbtns button:hover{border-color:var(--cyan);transform:scale(1.05)}
-.playbtns button#pPlay.playing{color:var(--amber-glow);border-color:var(--amber);animation:playPulse 1.5s infinite}
-@keyframes playPulse{0%,100%{box-shadow:0 0 0 0 rgba(212,168,75,.3)}50%{box-shadow:0 0 20px 4px rgba(212,168,75,.15)}}
-#srchOv{
-  position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:100;
-  display:flex;align-items:flex-start;justify-content:center;padding-top:10vh;
-  opacity:0;pointer-events:none;transition:.35s var(--ease);backdrop-filter:blur(4px);
-}
-#srchOv.on{opacity:1;pointer-events:auto}
-.srch-box{
-  background:var(--panel);border:1px solid var(--line);
-  width:min(540px,92vw);border-radius:16px;
-  box-shadow:0 24px 80px rgba(0,0,0,.5);overflow:hidden;
-}
-#srchIn{
-  width:100%;padding:18px 22px;border:0;border-bottom:1px solid var(--line);
-  font-family:var(--ui);font-size:15px;background:transparent;color:var(--ink);outline:none;
-}
-#srchList{max-height:50vh;overflow-y:auto}
-.srch-item{padding:12px 22px;cursor:pointer;border-bottom:1px solid var(--line);font-size:13px;transition:background .2s}
-.srch-item:hover{background:rgba(94,184,217,.08)}
-.srch-type{
-  font-size:9px;color:var(--amber-glow);letter-spacing:.12em;
-  margin-right:10px;font-family:var(--ui);font-weight:600;
-}
-#leftTgl,#rightTgl{
-  display:none;position:absolute;z-index:12;top:12px;
-  background:var(--glass);border:1px solid var(--line);
-  padding:8px 12px;cursor:pointer;font-family:var(--ui);
-  font-size:10px;letter-spacing:.1em;border-radius:8px;color:var(--ink2);
-  backdrop-filter:blur(8px);
-}
-#leftTgl{left:10px}
-#rightTgl{right:10px}
-@media(max-width:960px){
-  #app{grid-template-columns:1fr;grid-template-rows:56px 1fr 72px}
-  header{padding:0 12px;gap:10px}
-  .modes button{padding:6px 10px;font-size:10px}
-  h1 small{display:none}
-  #left,#right{
-    position:absolute;top:56px;bottom:72px;width:min(320px,90vw);z-index:30;
-    transform:translateX(-110%);transition:.35s var(--ease);
-    box-shadow:8px 0 40px rgba(0,0,0,.5);
-  }
-  #right{right:0;left:auto;transform:translateX(110%)}
-  #left.open,#right.open{transform:translateX(0)}
-  #leftTgl,#rightTgl{display:block}
-  .hbtns .hbtn:not(.film-btn){display:none}
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40;600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/ody-d012a099ee.css?v=989995db">
 </head>
 <body>
-<div id="cinematicIntro">
-  <img src="assets/images/film-odyssey-hero.jpg" alt="">
-  <div class="intro-veil"></div>
-  <div class="intro-copy">
+<div id="intro">
+  <img src="assets/images/ship-hero-cinema.jpg" alt="">
+  <div class="veil"></div>
+  <div class="intro-text">
     <h2>THE ODYSSEY</h2>
     <p>IMAX · NOLAN · HOMERIC EPIC</p>
   </div>
 </div>
-<div id="app">
-  <header>
-    <div class="brand">
-      <div class="logo-ring">Ὀ</div>
-      <h1><em>THE ODYSSEY</em><small>荷马史诗 · 归乡航程 · 神话谱系</small></h1>
-      <span class="version-badge" id="verBadge">CINEMA</span>
-    </div>
-    <div class="modes" id="modes">
-      <button type="button" data-mode="journey" aria-pressed="true">归乡航程</button>
-      <button type="button" data-mode="books" aria-pressed="false">史诗卷章</button>
-      <button type="button" data-mode="mythos" aria-pressed="false">神话谱系</button>
-    </div>
-    <div class="hbtns">
-      <button type="button" class="hbtn film-btn" id="filmBtn">IMAX · 电影</button>
-      <button type="button" class="hbtn" id="srchBtn">检索</button>
-      <button type="button" class="hbtn" id="tourBtn">导览</button>
-      <button type="button" class="hbtn" id="themeBtn">白昼</button>
-    </div>
-  </header>
 
-  <aside id="left">
-    <div class="pnl">
-      <p class="pt">Layers</p>
-      <div class="lay" id="layers">
-        <label><input type="checkbox" data-layer="route" checked> 航线光轨</label>
-        <label><input type="checkbox" data-layer="places" checked> 地点标记</label>
-        <label><input type="checkbox" data-layer="legendary" checked> 传说方位</label>
-        <label><input type="checkbox" data-layer="particles" checked> 海雾粒子</label>
+<div id="viewport">
+  <canvas id="map"></canvas>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+  <div id="tip"></div>
+  <div id="loader"><div class="intro-text"><p>启动航程引擎…</p></div></div>
+  <div id="tourCard"></div>
+  <div id="zoomDock">
+    <button type="button" id="zin">＋</button>
+    <button type="button" id="zout">－</button>
+    <button type="button" id="zfit">◎</button>
+  </div>
+
+  <div class="mobile-toggles">
+    <button type="button" id="toggleLeft">NAV</button>
+    <button type="button" id="toggleRight">INFO</button>
+  </div>
+
+  <div class="hud">
+    <header class="hud-top">
+      <div class="brand">
+        <div class="brand-mark">Ὀ</div>
+        <div>
+          <h1><span>THE ODYSSEY</span></h1>
+          <p>荷马史诗 · 归乡航程 · 神话谱系</p>
+        </div>
+        <span class="ver" id="verBadge">CINEMA</span>
       </div>
-    </div>
-    <div class="pnl">
-      <p class="pt">Navigator</p>
-      <div id="legend"></div>
-    </div>
-  </aside>
+      <div class="mode-pills">
+        <button type="button" class="active" data-mode="journey">归乡航程</button>
+        <button type="button" data-mode="books">史诗卷章</button>
+        <button type="button" data-mode="mythos">神话谱系</button>
+      </div>
+      <div class="hud-actions">
+        <button type="button" class="hud-btn gold" id="filmBtn">IMAX · 电影</button>
+        <button type="button" class="hud-btn" id="searchBtn">检索</button>
+        <button type="button" class="hud-btn" id="tourBtn">导览</button>
+        <button type="button" class="hud-btn" id="themeBtn">白昼</button>
+      </div>
+    </header>
 
-  <main id="stage">
-    <div class="letterbox top"></div>
-    <div class="letterbox bottom"></div>
-    <div class="vignette"></div>
-    <div class="grain"></div>
-    <button type="button" id="leftTgl">☰ NAV</button>
-    <button type="button" id="rightTgl">INFO ☰</button>
-    <canvas id="map"></canvas>
-    <div id="tip"></div>
-    <div id="zoomc">
-      <button type="button" id="zin" title="放大">＋</button>
-      <button type="button" id="zout" title="缩小">－</button>
-      <button type="button" id="zfit" title="适应">◎</button>
-    </div>
-    <div id="loading">
-      <div class="load-title">THE ODYSSEY</div>
-      <div class="load-sub">荷马史诗 · 奥德赛神话舆图</div>
-      <div class="load-bar"><i></i></div>
-    </div>
-    <div id="tourCard"></div>
-  </main>
+    <aside class="hud-left">
+      <div class="panel">
+        <div class="panel-head">Layers</div>
+        <div class="panel-body">
+          <label class="layer-toggle"><input type="checkbox" data-layer="route" checked> 航线光轨</label>
+          <label class="layer-toggle"><input type="checkbox" data-layer="places" checked> 地点标记</label>
+          <label class="layer-toggle"><input type="checkbox" data-layer="legendary" checked> 传说方位</label>
+          <label class="layer-toggle"><input type="checkbox" data-layer="particles" checked> 海雾粒子</label>
+          <label class="layer-toggle"><input type="checkbox" data-layer="waves" checked> 海浪动画</label>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head">Navigator</div>
+        <div class="panel-body nav-list" id="navList"></div>
+      </div>
+    </aside>
 
-  <aside id="right">
-    <div class="body" id="rbody"></div>
-  </aside>
+    <aside class="hud-right" id="detailDock">
+      <div class="panel-head" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px">
+        <span>EPIC DETAIL</span>
+        <button type="button" class="hud-btn" id="closeDetail" style="padding:4px 10px">✕</button>
+      </div>
+      <div class="detail-scroll" id="detailPanel"></div>
+    </aside>
 
-  <footer>
-    <span id="yBig">01</span>
-    <span id="yEra1"></span>
-    <div id="tlwrap"><canvas id="tlcanvas"></canvas></div>
-    <div class="playbtns">
-      <button type="button" id="pPrev" title="上一卷">◀</button>
-      <button type="button" id="pPlay" title="播放">▶</button>
-      <button type="button" id="pNext" title="下一卷">▶</button>
-    </div>
-  </footer>
-</div>
-
-<div id="srchOv">
-  <div class="srch-box">
-    <input type="search" id="srchIn" placeholder="检索卷章、地点、人物…" autocomplete="off">
-    <div id="srchList"></div>
+    <footer class="hud-bottom">
+      <div class="book-num" id="bookNum">01</div>
+      <div class="book-meta" id="bookMeta"></div>
+      <div id="tlwrap"><canvas id="tlcanvas"></canvas></div>
+      <div class="transport">
+        <button type="button" id="pPrev">◀</button>
+        <button type="button" id="pPlay">▶</button>
+        <button type="button" id="pNext">▶</button>
+      </div>
+    </footer>
   </div>
 </div>
 
-<script>window.__SPLIT__={"data":"assets/data-8b17968050.json?v=53251532","app":"assets/app-544bb39eed.js?v=53251532","version":"53251532"};</script>
+<div id="searchModal">
+  <div class="search-box">
+    <input type="search" id="searchInput" placeholder="检索卷章、地点、人物…" autocomplete="off">
+    <div id="searchResults"></div>
+  </div>
+</div>
+
+<script>window.__SPLIT__={"data":"assets/data-8b17968050.json?v=0ef9fdd4","app":"assets/app-fba44c8a6d.js?v=0ef9fdd4","css":"assets/css/ody-d012a099ee.css?v=0ef9fdd4","version":"0ef9fdd4"};</script>
 <script>
 (function(){
-  const h=location.hostname;
+  const h=location.host;
   const local=/^(localhost|127\.0\.0\.1)$/.test(h);
-  const onGithub=location.host.endsWith('github.io');
-  const needsCdn=!local&&!onGithub&&!location.protocol.includes('file');
+  const onGithub=h.endsWith('github.io');
+  const needsCdn=!local&&!onGithub;
   const CDN='https://cdn.jsdelivr.net/gh/enzoyoyo/ody@main/';
   window.__CDN__=needsCdn?CDN:'';
   if(needsCdn&&window.__SPLIT__){
     if(__SPLIT__.data&&!__SPLIT__.data.startsWith('http'))__SPLIT__.data=CDN+__SPLIT__.data;
     if(__SPLIT__.app&&!__SPLIT__.app.startsWith('http'))__SPLIT__.app=CDN+__SPLIT__.app;
+    if(__SPLIT__.css&&!__SPLIT__.css.startsWith('http')){
+      const link=document.querySelector('link[rel="stylesheet"][href*="assets/css/"]');
+      if(link)link.href=CDN+__SPLIT__.css;
+    }
   }
   if(__SPLIT__?.version){
     const b=document.getElementById('verBadge');
@@ -515,25 +132,16 @@ footer{
   }
 })();
 (async()=>{
-  const lo=document.getElementById('loading');
-  const intro=document.getElementById('cinematicIntro');
-  const say=t=>{const s=lo?.querySelector('.load-sub');if(s)s.textContent=t;};
-  const hideIntro=()=>setTimeout(()=>intro?.classList.add('hide'),1800);
   try{
-    say('载入史诗数据…');
     const r=await fetch(__SPLIT__.data);
     if(!r.ok)throw new Error('HTTP '+r.status);
     window.DATA=await r.json();
-    say('启动航程引擎…');
+    window.dispatchEvent(new Event('ody:data'));
     const s=document.createElement('script');
     s.src=__SPLIT__.app;
-    s.onload=()=>{
-      setTimeout(()=>lo?.classList.add('out'),500);
-      hideIntro();
-    };
-    s.onerror=()=>say('引擎加载失败');
+    s.onerror=()=>alert('引擎加载失败，请强制刷新');
     document.body.appendChild(s);
-  }catch(e){say('加载失败: '+e.message);intro?.classList.add('hide');console.error(e);}
+  }catch(e){console.error(e);document.getElementById('intro')?.classList.add('hide');}
 })();
 </script>
 </body>
