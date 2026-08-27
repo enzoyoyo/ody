@@ -28,7 +28,8 @@
   "modes": {
     "journey": "归乡航程",
     "books": "史诗卷章",
-    "mythos": "神话谱系"
+    "mythos": "神话谱系",
+    "gallery": "映像馆"
   },
   "layerDefaults": {
     "route": 1,
@@ -52,6 +53,10 @@
     {
       "title": "荷马史诗背景",
       "text": "《奥德赛》约成书于公元前8世纪，属口头传统写定。特洛伊战争背景可能关联迈锡尼时代，年代学界仍有争论。"
+    },
+    {
+      "title": "映像馆",
+      "text": "点击「映像馆」可观看1908年公版电影《The Return of Ulysses》、收听 LibriVox 有声书，并浏览古典绘画与 Codex 场景插图。"
     },
     {
       "title": "电影导读",

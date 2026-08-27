@@ -55,6 +55,7 @@
         <button type="button" class="active" data-mode="journey">归乡航程</button>
         <button type="button" data-mode="books">史诗卷章</button>
         <button type="button" data-mode="mythos">神话谱系</button>
+        <button type="button" data-mode="gallery">映像馆</button>
       </div>
       <div class="hud-actions">
         <button type="button" class="hud-btn gold" id="filmBtn">IMAX · 电影</button>
@@ -109,7 +110,13 @@
   </div>
 </div>
 
-<script>window.__SPLIT__={"data":"assets/data-8b17968050.json?v=0ef9fdd4","app":"assets/app-fba44c8a6d.js?v=0ef9fdd4","css":"assets/css/ody-d012a099ee.css?v=0ef9fdd4","version":"0ef9fdd4"};</script>
+<div id="lightbox" class="lightbox" aria-hidden="true">
+  <button type="button" class="lb-close" id="lbClose">✕</button>
+  <img id="lbImg" alt="">
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>window.__SPLIT__={"data":"assets/data-286bccb442.json?v=c2923943","app":"assets/app-87c74a2c8b.js?v=c2923943","css":"assets/css/ody-fe773c5cc4.css?v=c2923943","version":"c2923943"};</script>
 <script>
 (function(){
   const h=location.host;

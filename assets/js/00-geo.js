@@ -69,6 +69,7 @@ window.ODY = window.ODY || {};
       themes: data.themes || [],
       mythology: data.mythology || {},
       film: data.film || {},
+      media: data.media || {},
       pointAlong(pts, t) {
         if (!pts?.length) return { x: 0, y: 0, a: 0 };
         const total = pts.length - 1;

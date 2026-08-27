@@ -1,0 +1,147 @@
+{
+  "version": 1,
+  "creditNote": "生成图为原创视觉辅助；古典绘画与影片来自 Wikimedia Commons / Internet Archive，公有领域或相应许可。",
+  "places": {
+    "troy": {
+      "hero": "assets/images/places/place-troy.jpg",
+      "gallery": [
+        {
+          "src": "assets/images/art/troy-hisarlik.jpg",
+          "caption": "希沙利克（Hisarlık）遗址实景",
+          "credit": "Wikimedia Commons · PD / 现场摄影",
+          "kind": "photo"
+        }
+      ]
+    },
+    "ithaca": { "hero": "assets/images/places/place-ithaca.jpg", "gallery": [] },
+    "scheria": { "hero": "assets/images/places/place-scheria.jpg", "gallery": [] },
+    "cyclops": {
+      "hero": "assets/images/places/place-cyclops.jpg",
+      "gallery": [
+        {
+          "src": "assets/images/art/eckersberg-polyphemus.jpg",
+          "caption": "乌利西斯逃离波吕斐摩斯洞穴（Eckersberg, 1812）",
+          "credit": "Wikimedia Commons · Public Domain",
+          "kind": "painting"
+        }
+      ]
+    },
+    "aeaea": {
+      "hero": "assets/images/places/place-aeaea.jpg",
+      "gallery": [
+        {
+          "src": "assets/images/art/waterhouse-circe.jpg",
+          "caption": "喀耳刻向奥德修斯递杯（Waterhouse）",
+          "credit": "Wikimedia Commons · Public Domain",
+          "kind": "painting"
+        }
+      ]
+    },
+    "ogygia": { "hero": "assets/images/places/place-ogygia.jpg", "gallery": [] },
+    "scylla": { "hero": "assets/images/places/place-scylla.jpg", "gallery": [] },
+    "underworld": { "hero": "assets/images/places/place-underworld.jpg", "gallery": [] },
+    "olympus": { "hero": "assets/images/places/place-olympus.jpg", "gallery": [] },
+    "pylos": { "hero": "assets/images/art/aegean-sea.jpg", "gallery": [] },
+    "sparta": {
+      "hero": "assets/images/art/waterhouse-penelope.jpg",
+      "gallery": []
+    },
+    "aeolia": { "hero": "assets/images/art/olympias-trireme.jpg", "gallery": [] },
+    "thrinacia": { "hero": "assets/images/art/aegean-sea.jpg", "gallery": [] },
+    "lotus": { "hero": "assets/images/art/aegean-sea.jpg", "gallery": [] }
+  },
+  "characters": {
+    "odysseus": { "portrait": "assets/images/chars/char-odysseus.jpg" },
+    "athena": { "portrait": "assets/images/chars/char-athena.jpg" },
+    "penelope": { "portrait": "assets/images/chars/char-penelope.jpg" },
+    "circe": { "portrait": "assets/images/art/waterhouse-circe.jpg" },
+    "polyphemus": { "portrait": "assets/images/art/eckersberg-polyphemus.jpg" }
+  },
+  "books": {
+    "1": { "hero": "assets/images/places/place-olympus.jpg", "motif": "诸神议事" },
+    "5": { "hero": "assets/images/places/place-ogygia.jpg", "motif": "卡吕普索之岛" },
+    "6": { "hero": "assets/images/places/place-scheria.jpg", "motif": "费阿克斯" },
+    "9": { "hero": "assets/images/places/place-cyclops.jpg", "motif": "独眼巨人" },
+    "10": { "hero": "assets/images/places/place-aeaea.jpg", "motif": "女巫喀耳刻" },
+    "11": { "hero": "assets/images/places/place-underworld.jpg", "motif": "冥界寻访" },
+    "12": { "hero": "assets/images/places/place-scylla.jpg", "motif": "海峡怪物" },
+    "13": { "hero": "assets/images/places/place-ithaca.jpg", "motif": "归乡伊塔卡" },
+    "22": { "hero": "assets/images/art/flaxman-dog.jpg", "motif": "肃清求婚者" },
+    "23": { "hero": "assets/images/art/waterhouse-penelope.jpg", "motif": "夫妻相认" }
+  },
+  "gallery": [
+    {
+      "id": "flaxman-demodokos",
+      "src": "assets/images/art/flaxman-demodokos.jpg",
+      "title": "德谟多科斯的歌咏",
+      "credit": "John Flaxman · Wikimedia Commons · PD",
+      "tags": ["art", "scheria"]
+    },
+    {
+      "id": "flaxman-dog",
+      "src": "assets/images/art/flaxman-dog.jpg",
+      "title": "乌利西斯与忠犬",
+      "credit": "John Flaxman · Wikimedia Commons · PD",
+      "tags": ["art", "ithaca"]
+    },
+    {
+      "id": "eckersberg",
+      "src": "assets/images/art/eckersberg-polyphemus.jpg",
+      "title": "逃离波吕斐摩斯",
+      "credit": "C. W. Eckersberg, 1812 · PD",
+      "tags": ["art", "cyclops"]
+    },
+    {
+      "id": "waterhouse-circe",
+      "src": "assets/images/art/waterhouse-circe.jpg",
+      "title": "喀耳刻的酒杯",
+      "credit": "J. W. Waterhouse · PD",
+      "tags": ["art", "aeaea"]
+    },
+    {
+      "id": "waterhouse-penelope",
+      "src": "assets/images/art/waterhouse-penelope.jpg",
+      "title": "佩涅罗珀与求婚者",
+      "credit": "J. W. Waterhouse · PD",
+      "tags": ["art", "ithaca"]
+    },
+    {
+      "id": "olympias",
+      "src": "assets/images/art/olympias-trireme.jpg",
+      "title": "三列桨战舰 Olympias 复原船",
+      "credit": "Wikimedia Commons · CC 现场摄影",
+      "tags": ["ship", "history"]
+    },
+    {
+      "id": "troy-site",
+      "src": "assets/images/art/troy-hisarlik.jpg",
+      "title": "特洛伊·希沙利克遗址",
+      "credit": "Wikimedia Commons",
+      "tags": ["photo", "troy"]
+    }
+  ],
+  "videos": [
+    {
+      "id": "return-of-ulysses-1908",
+      "title": "The Return of Ulysses（1908）",
+      "desc": "早期无声短片，公有领域。奥德修斯归乡主题的电影史早期影像。",
+      "src": "https://upload.wikimedia.org/wikipedia/commons/4/47/The_Return_of_Ulysses_%281908%29.webm",
+      "poster": "assets/images/art/flaxman-dog.jpg",
+      "duration": "约 13 分钟",
+      "license": "Public Domain Mark 1.0",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:The_Return_of_Ulysses_(1908).webm",
+      "credit": "Wikimedia Commons"
+    }
+  ],
+  "audio": [
+    {
+      "id": "librivox-odyssey",
+      "title": "LibriVox · The Odyssey（Butler 英译）",
+      "desc": "公有领域有声书全文朗读，可对照史诗卷章收听。",
+      "embed": "https://archive.org/embed/odyssey_2409_librivox",
+      "sourceUrl": "https://archive.org/details/odyssey_2409_librivox",
+      "license": "Public Domain Mark 1.0",
+      "credit": "LibriVox / Internet Archive"
+    }
+  ]
+}

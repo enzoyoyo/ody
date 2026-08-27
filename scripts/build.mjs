@@ -16,7 +16,7 @@ const indexPath = join(root, 'index.html');
 mkdirSync(assetsDir, { recursive: true });
 execSync('node scripts/validate-content.mjs', { cwd: root, stdio: 'inherit' });
 
-const files = ['config', 'places', 'routes', 'books', 'beats', 'characters', 'factions', 'themes', 'mythology', 'film'];
+const files = ['config', 'places', 'routes', 'books', 'beats', 'characters', 'factions', 'themes', 'mythology', 'film', 'media'];
 const data = {};
 for (const key of files) {
   const p = join(srcDir, `${key}.json`);

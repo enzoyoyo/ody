@@ -36,3 +36,17 @@
 | 键名 | 说明 |
 |------|------|
 | `virgil_aeneid` | 维吉尔《埃涅阿斯纪》 |
+
+## 影像与音频（公版 / 开放许可）
+
+| 键名 | 说明 |
+|------|------|
+| `commons_return_of_ulysses_1908` | Wikimedia Commons：The Return of Ulysses (1908) WebM，Public Domain |
+| `archive_librivox_odyssey` | Internet Archive / LibriVox：The Odyssey (Butler)，Public Domain Mark 1.0 |
+| `commons_flaxman_odyssey` | John Flaxman 《奥德赛》线描插图，公有领域 |
+| `commons_eckersberg_polyphemus` | Eckersberg《逃离波吕斐摩斯》1812，公有领域 |
+| `commons_waterhouse_circe` | Waterhouse《Circe Offering the Cup…》，公有领域 |
+| `commons_waterhouse_penelope` | Waterhouse《Penelope and the Suitors》，公有领域 |
+| `commons_troy_hisarlik` | Hisarlık / Troy 遗址摄影，Wikimedia Commons |
+| `commons_olympias_trireme` | 雅典三列桨战舰复原船 Olympias 现场摄影 |
+| `codex_scene_stills` | Codex GenerateImage 原创场景/肖像插图（本站视觉辅助，非史料） |
