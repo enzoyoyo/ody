@@ -51,6 +51,8 @@ python3 -m http.server 8080
 # http://localhost:8080
 ```
 
+## 部署
+
 ### GitHub Pages（推荐）
 
 1. 打开 https://github.com/enzoyoyo/ody/settings/pages
@@ -64,3 +66,4 @@ python3 -m http.server 8080
 亦可部署至 Cloudflare Pages / Tunnel。目标子域：`ody.papertok.ai`。
 
 构建后启用 gzip（`.json` / `.js`）以优化首屏加载。
+
