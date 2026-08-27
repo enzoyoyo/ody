@@ -1,0 +1,42 @@
+{
+  "title": "希腊神话体系与史诗语境",
+  "sections": [
+    {
+      "title": "神谱：从混沌到奥林匹斯",
+      "text": "赫西俄德《神谱》（约公元前7世纪）系统记载：混沌（Chaos）分化出盖亚与乌拉诺斯，经泰坦之战，宙斯成为第三代神王。波塞idon掌海、哈迪斯掌冥界，与宙斯三分天下。此谱系在口传传统中早于写定，为荷马史诗提供神界秩序背景。",
+      "confidence": "consensus",
+      "sources": ["hesiod_theogony", "wikipedia_greek_mythology"]
+    },
+    {
+      "title": "与《伊利亚特》的接续",
+      "text": "《伊利亚特》叙述特洛伊战争第十年，以阿喀琉斯之怒与赫克托耳之死为主线；《奥德赛》自战争结束、奥德修斯未即时归乡起笔，时间线接续。两史诗合称荷马史诗，共24卷结构。",
+      "confidence": "consensus",
+      "sources": ["homer_iliad", "homer_odyssey", "wikipedia_odyssey"]
+    },
+    {
+      "title": "迈锡尼与特洛伊：历史层",
+      "text": "史诗背景可能关联公元前12世纪迈锡尼文明与安纳托利亚特洛伊遗址（Hisarlik）。特洛伊战争是否史实、年代为何，学界无定论；史诗属文学演义层，不宜与考古年代简单等同。",
+      "confidence": "disputed",
+      "sources": ["wikipedia_trojan_war", "wikipedia_mycenae"]
+    },
+    {
+      "title": "荷马问题",
+      "text": "荷马是否为单一作者、史诗如何由口头诗转写书面，是持续学术争论（短歌说、统一说、核心说）。帕里-洛德口头程式理论指出重复套语支持多世代口传写定。",
+      "confidence": "disputed",
+      "sources": ["wikipedia_homer", "oral_formulaic_theory"]
+    },
+    {
+      "title": "罗马与后世",
+      "text": "罗马神话将奥德修斯称尤利西斯（Ulysses）；维吉尔《埃涅阿斯纪》以另一英雄视角延续神话叙事。奥德赛一词在英语中引申为漫长冒险旅程。",
+      "confidence": "consensus",
+      "sources": ["wikipedia_odysseus", "virgil_aeneid"]
+    }
+  ],
+  "pantheon": [
+    { "name": "宙斯", "greek": "Ζεύς", "domain": "天空与秩序", "odysseyRole": "批准奥德修斯归乡" },
+    { "name": "波塞冬", "greek": "Ποσειδῶν", "domain": "海洋", "odysseyRole": "阻挠归乡" },
+    { "name": "雅典娜", "greek": "Ἀθηνᾶ", "domain": "智慧与战争", "odysseyRole": "保护奥德修斯一家" },
+    { "name": "赫尔墨斯", "greek": "Ἑρμῆς", "domain": "神使", "odysseyRole": "传宙斯之命、助奥德修斯" },
+    { "name": "赫利俄斯", "greek": "Ἥλιος", "domain": "太阳", "odysseyRole": "船员食圣牛触怒宙斯" }
+  ]
+}

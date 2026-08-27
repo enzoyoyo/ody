@@ -1,0 +1,142 @@
+[
+  {
+    "id": "troy",
+    "name": "特洛伊",
+    "greek": "Τροία",
+    "lat": 39.96,
+    "lon": 26.24,
+    "kind": "city",
+    "confidence": "disputed",
+    "note": "史诗中的特洛伊；Hisarlik（土耳其）为学界主流考古对应，史诗年代与考古层仍有争论。"
+  },
+  {
+    "id": "ithaca",
+    "name": "伊塔卡",
+    "greek": "Ἰθάκη",
+    "lat": 38.37,
+    "lon": 20.72,
+    "kind": "city",
+    "confidence": "consensus",
+    "note": "奥德修斯故乡；现代希腊伊奥尼亚群岛伊塔卡岛。"
+  },
+  {
+    "id": "pylos",
+    "name": "皮洛斯",
+    "greek": "Πύλος",
+    "lat": 36.96,
+    "lon": 21.7,
+    "kind": "city",
+    "confidence": "consensus",
+    "note": "涅斯托尔王城；忒勒玛科斯寻访父亲线索之地。"
+  },
+  {
+    "id": "sparta",
+    "name": "斯巴达",
+    "greek": "Σπάρτη",
+    "lat": 37.08,
+    "lon": 22.43,
+    "kind": "city",
+    "confidence": "consensus",
+    "note": "墨涅拉俄斯与海伦之城；忒勒玛科斯第二站。"
+  },
+  {
+    "id": "scheria",
+    "name": "费阿克斯（斯刻里亚）",
+    "greek": "Σχερία",
+    "lat": 39.62,
+    "lon": 19.92,
+    "kind": "island",
+    "confidence": "disputed",
+    "note": "阿尔喀诺俄斯王国；传统多与科孚岛对应，亦有其他说法。"
+  },
+  {
+    "id": "cyclops",
+    "name": "独眼巨人岛",
+    "greek": "Κυκλώπεια",
+    "lat": 37.5,
+    "lon": 24.0,
+    "kind": "legendary",
+    "confidence": "legendary",
+    "note": "波吕斐摩斯洞穴；无确定考古坐标，图为叙事传统方位示意。"
+  },
+  {
+    "id": "aeolia",
+    "name": "埃奥利野岛",
+    "greek": "Αἰολία",
+    "lat": 38.2,
+    "lon": 26.5,
+    "kind": "legendary",
+    "confidence": "legendary",
+    "note": "风神埃俄洛斯赠风囊之地；传说方位。"
+  },
+  {
+    "id": "aeaea",
+    "name": "艾艾野岛",
+    "greek": "Αἰαία",
+    "lat": 38.0,
+    "lon": 26.8,
+    "kind": "legendary",
+    "confidence": "legendary",
+    "note": "女巫喀耳刻之岛；传统或与埃奥利群岛方向相关，坐标为示意。"
+  },
+  {
+    "id": "underworld",
+    "name": "冥界入口",
+    "greek": "Ἅιδου",
+    "lat": 40.0,
+    "lon": 23.5,
+    "kind": "legendary",
+    "confidence": "legendary",
+    "note": "叙事中的冥府寻访；非考古地点，符号标注。"
+  },
+  {
+    "id": "scylla",
+    "name": "斯库拉与卡律布狄斯",
+    "greek": "Σκύλλα",
+    "lat": 38.19,
+    "lon": 15.55,
+    "kind": "legendary",
+    "confidence": "disputed",
+    "note": "海峡怪物与漩涡；传统多与墨西拿海峡对应。"
+  },
+  {
+    "id": "thrinacia",
+    "name": "翠纳基野岛",
+    "greek": "Θρινακίη",
+    "lat": 36.5,
+    "lon": 14.5,
+    "kind": "legendary",
+    "confidence": "legendary",
+    "note": "太阳神赫利俄斯圣牛之岛；传说方位。"
+  },
+  {
+    "id": "ogygia",
+    "name": "奥古吉亚岛",
+    "greek": "Ὠγυγία",
+    "lat": 36.05,
+    "lon": 14.25,
+    "kind": "legendary",
+    "confidence": "disputed",
+    "note": "卡吕普索囚禁奥德修斯七年；传统说法包括戈佐岛等，存争议。"
+  },
+  {
+    "id": "olympus",
+    "name": "奥林匹斯",
+    "greek": "Ὄλυμπος",
+    "lat": 40.09,
+    "lon": 22.36,
+    "kind": "mountain",
+    "confidence": "consensus",
+    "note": "众神居所；希腊奥林匹斯山。"
+  },
+  {
+    "id": "lotus",
+    "name": "食莲族之地",
+    "greek": "Λωτοφάγοι",
+    "lat": 32.5,
+    "lon": 24.0,
+    "kind": "legendary",
+    "confidence": "legendary",
+    "note": "食忘忧果的民族；北非方向传说示意。"
+  }
+]

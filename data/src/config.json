@@ -1,0 +1,62 @@
+{
+  "projection": {
+    "type": "equalEarth",
+    "lon0": 20,
+    "lat0": 38
+  },
+  "bbox": {
+    "lon0": -12,
+    "lat0": 28,
+    "lon1": 42,
+    "lat1": 48
+  },
+  "core": {
+    "lon0": -5,
+    "lat0": 32,
+    "lon1": 35,
+    "lat1": 46
+  },
+  "startBook": 1,
+  "endBook": 24,
+  "startYear": -1190,
+  "endYear": -1170,
+  "yearPrefix": "约公元前",
+  "bce": "",
+  "title": "奥德赛神话舆图",
+  "titleEn": "ODYSSEY MYTH ATLAS · HOMERIC EPIC · MEDITERRANEAN JOURNEY",
+  "seal": "Ὀ",
+  "modes": {
+    "journey": "归乡航程",
+    "books": "史诗卷章",
+    "mythos": "神话谱系"
+  },
+  "layerDefaults": {
+    "route": 1,
+    "places": 1,
+    "legendary": 1,
+    "grid": 0
+  },
+  "tour": [
+    {
+      "title": "欢迎来到奥德赛舆图",
+      "text": "本站以荷马史诗《奥德赛》为主线，串联希腊神话体系。拖动底部卷轴切换章节，点击地图上的地点阅读情节与史料注。"
+    },
+    {
+      "title": "三种阅读模式",
+      "text": "归乡航程：按地理顺序浏览奥德修斯航线。史诗卷章：按24卷结构导读。神话谱系：神谱与人物关系。"
+    },
+    {
+      "title": "史料与传说",
+      "text": "实线地点有考古或地理共识；虚线标注传说方位。右栏脚注标明学界共识、争议或传说层。"
+    },
+    {
+      "title": "荷马史诗背景",
+      "text": "《奥德赛》约成书于公元前8世纪，属口头传统写定。特洛伊战争背景可能关联迈锡尼时代，年代学界仍有争论。"
+    },
+    {
+      "title": "电影导读",
+      "text": "点击顶部「电影」按钮查看克里斯托弗·诺兰2026年改编的公开制作信息，与史诗章节对照——不含未公开剧情。"
+    }
+  ],
+  "filmBtnLabel": "电影导读"
+}
