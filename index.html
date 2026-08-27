@@ -4,16 +4,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="荷马史诗《奥德赛》— Nolan 式史诗交互舆图">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <title>THE ODYSSEY · 奥德赛神话舆图</title>
+<link rel="preload" as="image" href="assets/images/map-ocean-night.jpg">
+<link rel="preload" as="image" href="assets/images/film-odyssey-hero.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --void:#040608;
-  --deep:#0a0e14;
-  --panel:#0c121c;
-  --glass:rgba(10,16,26,.78);
+  --void:#000000;
+  --deep:#050810;
+  --panel:#080c14;
+  --glass:rgba(6,10,18,.92);
   --glass-border:rgba(180,210,240,.12);
   --ink:#e8ecf2;
   --ink2:#9aa8bc;
@@ -116,13 +119,44 @@ h1 small{
 .hbtn.film-btn{border-color:rgba(212,168,75,.35);color:var(--amber-glow)}
 .hbtn.film-btn:hover{background:rgba(212,168,75,.12);border-color:var(--amber)}
 aside{
-  background:var(--glass);
-  backdrop-filter:blur(20px);
-  border-right:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(4,8,14,.97),rgba(2,4,8,.98));
+  backdrop-filter:blur(24px);
+  border-right:1px solid rgba(212,168,75,.15);
   overflow-y:auto;overflow-x:hidden;
   animation:slideIn .6s var(--ease) both;
 }
-#right{border-right:0;border-left:1px solid var(--line);animation-delay:.08s}
+#right{border-right:0;border-left:1px solid rgba(212,168,75,.15);animation-delay:.08s}
+.version-badge{
+  font-family:var(--ui);font-size:9px;letter-spacing:.22em;
+  color:var(--amber-glow);border:1px solid rgba(212,168,75,.4);
+  padding:4px 8px;border-radius:4px;margin-left:8px;
+  animation:logoPulse 3s ease-in-out infinite;
+}
+#cinematicIntro{
+  position:fixed;inset:0;z-index:200;background:#000;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity 1.2s var(--ease),visibility 1.2s;
+}
+#cinematicIntro.hide{opacity:0;visibility:hidden;pointer-events:none}
+#cinematicIntro img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:brightness(.65) saturate(1.2);
+}
+#cinematicIntro .intro-veil{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.3),rgba(0,0,0,.85) 70%);
+}
+.intro-copy{position:relative;z-index:2;text-align:center;padding:24px}
+.intro-copy h2{
+  font-family:var(--display);font-size:42px;letter-spacing:.55em;
+  color:#fff;margin:0 0 12px;font-weight:600;
+  text-shadow:0 0 60px rgba(94,184,217,.5);
+  animation:introGlow 2s ease-in-out infinite alternate;
+}
+.intro-copy p{
+  font-family:var(--ui);font-size:11px;letter-spacing:.5em;color:var(--amber-glow);
+}
+@keyframes introGlow{from{opacity:.85}to{opacity:1;text-shadow:0 0 80px rgba(240,200,100,.6)}}
 @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .pnl{padding:16px 18px;border-bottom:1px solid var(--line)}
 .pt{
@@ -373,11 +407,20 @@ footer{
 </style>
 </head>
 <body>
+<div id="cinematicIntro">
+  <img src="assets/images/film-odyssey-hero.jpg" alt="">
+  <div class="intro-veil"></div>
+  <div class="intro-copy">
+    <h2>THE ODYSSEY</h2>
+    <p>IMAX · NOLAN · HOMERIC EPIC</p>
+  </div>
+</div>
 <div id="app">
   <header>
     <div class="brand">
       <div class="logo-ring">Ὀ</div>
       <h1><em>THE ODYSSEY</em><small>荷马史诗 · 归乡航程 · 神话谱系</small></h1>
+      <span class="version-badge" id="verBadge">CINEMA</span>
     </div>
     <div class="modes" id="modes">
       <button type="button" data-mode="journey" aria-pressed="true">归乡航程</button>
@@ -453,22 +496,29 @@ footer{
   </div>
 </div>
 
-<script>window.__SPLIT__={"data":"assets/data-8b17968050.json","app":"assets/app-b5223b9b88.js"};</script>
+<script>window.__SPLIT__={"data":"assets/data-8b17968050.json?v=53251532","app":"assets/app-544bb39eed.js?v=53251532","version":"53251532"};</script>
 <script>
 (function(){
-  const CDN='https://cdn.jsdelivr.net/gh/enzoyoyo/ody@main/';
   const h=location.hostname;
   const local=/^(localhost|127\.0\.0\.1)$/.test(h);
-  if(!local&&window.__SPLIT__){
-    const base=CDN;
-    window.__CDN__=base;
-    if(__SPLIT__.data&&!__SPLIT__.data.startsWith('http'))__SPLIT__.data=base+__SPLIT__.data;
-    if(__SPLIT__.app&&!__SPLIT__.app.startsWith('http'))__SPLIT__.app=base+__SPLIT__.app;
+  const onGithub=location.host.endsWith('github.io');
+  const needsCdn=!local&&!onGithub&&!location.protocol.includes('file');
+  const CDN='https://cdn.jsdelivr.net/gh/enzoyoyo/ody@main/';
+  window.__CDN__=needsCdn?CDN:'';
+  if(needsCdn&&window.__SPLIT__){
+    if(__SPLIT__.data&&!__SPLIT__.data.startsWith('http'))__SPLIT__.data=CDN+__SPLIT__.data;
+    if(__SPLIT__.app&&!__SPLIT__.app.startsWith('http'))__SPLIT__.app=CDN+__SPLIT__.app;
+  }
+  if(__SPLIT__?.version){
+    const b=document.getElementById('verBadge');
+    if(b)b.textContent='CINEMA · '+__SPLIT__.version;
   }
 })();
 (async()=>{
   const lo=document.getElementById('loading');
+  const intro=document.getElementById('cinematicIntro');
   const say=t=>{const s=lo?.querySelector('.load-sub');if(s)s.textContent=t;};
+  const hideIntro=()=>setTimeout(()=>intro?.classList.add('hide'),1800);
   try{
     say('载入史诗数据…');
     const r=await fetch(__SPLIT__.data);
@@ -477,10 +527,13 @@ footer{
     say('启动航程引擎…');
     const s=document.createElement('script');
     s.src=__SPLIT__.app;
-    s.onload=()=>setTimeout(()=>lo?.classList.add('out'),400);
+    s.onload=()=>{
+      setTimeout(()=>lo?.classList.add('out'),500);
+      hideIntro();
+    };
     s.onerror=()=>say('引擎加载失败');
     document.body.appendChild(s);
-  }catch(e){say('加载失败: '+e.message);console.error(e);}
+  }catch(e){say('加载失败: '+e.message);intro?.classList.add('hide');console.error(e);}
 })();
 </script>
 </body>

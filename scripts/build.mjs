@@ -56,9 +56,17 @@ const appHash = createHash('sha256').update(appBuf).digest('hex').slice(0, 10);
 const appFile = `app-${appHash}.js`;
 writeFileSync(join(assetsDir, appFile), appBuf);
 
+const SITE_VERSION = createHash('sha256')
+  .update(appBuf)
+  .update(dataStr)
+  .digest('hex')
+  .slice(0, 8);
+const bust = `?v=${SITE_VERSION}`;
+
 const split = {
-  data: `assets/${dataFile}`,
-  app: `assets/${appFile}`,
+  data: `assets/${dataFile}${bust}`,
+  app: `assets/${appFile}${bust}`,
+  version: SITE_VERSION,
 };
 
 let html = readFileSync(indexPath, 'utf8');
